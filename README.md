@@ -147,7 +147,7 @@ namespace Dummy
 ## Troubleshooting
 
 - DllNotFoundException / EntryPointNotFoundException
-    - Ensure native libs are on PATH/LD_LIBRARY_PATH or set BINARYNINJA_BASE
+    - Ensure set BINARYNINJA_BASE
     - On Native AOT, confirm your RID is correct and you published with PublishAot=true
 - AccessViolationException
     - Check lifetime: ensure using-statements dispose views/sessions before exit
