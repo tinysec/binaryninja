@@ -47,10 +47,8 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: BinaryNinja.dll
             platform: windows
           - os: ubuntu-latest
-            artifact_name: BinaryNinja.so
             platform: linux
 
     runs-on: ${{ matrix.os }}
