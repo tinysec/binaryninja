@@ -80,7 +80,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p artifacts
-          cp "build/${{ matrix.artifact_name }}" artifacts/
+          cp build/* artifacts/
           ls -lh artifacts
 
       - name: upload artifacts
@@ -116,3 +116,22 @@ jobs:
           prerelease: true
           token: ${{ secrets.GIT_TOKEN }}
           files: artifacts/*.*
+          
+      - name: publish to NuGet
+        if: ${{ secrets.NUGET_TOKEN != '' }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
+        run: |
+          echo "[+] Publishing NuGet packages with version ${{ needs.version.outputs.version }}"
+          shopt -s globstar nullglob
+          
+          for pkg in artifacts/**/*.nupkg; do
+            if [[ "$pkg" == *.snupkg ]]; then
+              continue
+            fi
+            echo "-> dotnet nuget push $pkg"
+            dotnet nuget push "$pkg" \
+              --api-key "$NUGET_AUTH_TOKEN" \
+              --source "https://api.nuget.org/v3/index.json" \
+              --skip-duplicate
+          done
