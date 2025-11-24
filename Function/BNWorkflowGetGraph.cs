@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// BNFlowGraph* BNWorkflowGetGraph(BNWorkflow* workflow, const char* activity, bool sequential)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNWorkflowGetGraph"
+        )]
+		internal static extern IntPtr BNWorkflowGetGraph(
+			
+			// BNWorkflow* workflow
+		    IntPtr workflow  , 
+			
+			// const char* activity
+		    string activity  , 
+			
+			// bool sequential
+		    bool sequential  
+			
+		);
+	}
+}

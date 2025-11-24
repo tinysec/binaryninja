@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// const char** BNGetTypeArchiveSnapshotChildIds(BNTypeArchive* archive, const char* id, uint64_t* count)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNGetTypeArchiveSnapshotChildIds"
+        )]
+		internal static extern IntPtr BNGetTypeArchiveSnapshotChildIds(
+			
+			// BNTypeArchive* archive
+		    IntPtr archive  , 
+			
+			// const char* id
+		    string id  , 
+			
+			// uint64_t* count
+		    IntPtr count  
+			
+		);
+	}
+}

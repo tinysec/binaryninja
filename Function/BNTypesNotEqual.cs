@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNTypesNotEqual(BNType* a, BNType* b)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNTypesNotEqual"
+        )]
+		internal static extern bool BNTypesNotEqual(
+			
+			// BNType* a
+		    IntPtr a  , 
+			
+			// BNType* b
+		    IntPtr b  
+			
+		);
+	}
+}

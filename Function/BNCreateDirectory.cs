@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNCreateDirectory(const char* path, bool createSubdirectories)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNCreateDirectory"
+        )]
+		internal static extern bool BNCreateDirectory(
+			
+			// const char* path
+		    string path  , 
+			
+			// bool createSubdirectories
+		    bool createSubdirectories  
+		);
+	}
+}

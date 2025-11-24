@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// BNArchitecture* BNGetAssociatedArchitectureByAddress(BNArchitecture* arch, uint64_t* addr)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNGetAssociatedArchitectureByAddress"
+        )]
+		internal static extern IntPtr BNGetAssociatedArchitectureByAddress(
+			
+			// BNArchitecture* arch
+		    IntPtr arch  , 
+			
+			// uint64_t* addr
+		    ref ulong addr  
+		);
+	}
+}

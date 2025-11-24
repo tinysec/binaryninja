@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNRemoveDebugParserDataVariables(BNDebugInfo* debugInfo, const char* parserName)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNRemoveDebugParserDataVariables"
+        )]
+		internal static extern bool BNRemoveDebugParserDataVariables(
+			
+			// BNDebugInfo* debugInfo
+		    IntPtr debugInfo  , 
+			
+			// const char* parserName
+		    string parserName  
+			
+		);
+	}
+}

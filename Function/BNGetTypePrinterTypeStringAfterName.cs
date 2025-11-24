@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNGetTypePrinterTypeStringAfterName(BNTypePrinter* printer, BNType* type, BNPlatform* platform, BNTokenEscapingType escaping, const char** result)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNGetTypePrinterTypeStringAfterName"
+        )]
+		internal static extern bool BNGetTypePrinterTypeStringAfterName(
+			
+			// BNTypePrinter* printer
+		    IntPtr printer  , 
+			
+			// BNType* type
+		    IntPtr type  , 
+			
+			// BNPlatform* platform
+		    IntPtr platform  , 
+			
+			// BNTokenEscapingType escaping
+		    TokenEscapingType escaping  , 
+			
+			// const char** result
+		    string[] result  
+			
+		);
+	}
+}

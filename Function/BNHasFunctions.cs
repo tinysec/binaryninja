@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNHasFunctions(BNBinaryView* view)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNHasFunctions"
+        )]
+		internal static extern bool BNHasFunctions(
+			
+			// BNBinaryView* view
+		    IntPtr view  
+		);
+	}
+}

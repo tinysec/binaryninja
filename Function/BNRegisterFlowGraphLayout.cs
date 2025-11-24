@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// BNFlowGraphLayout* BNRegisterFlowGraphLayout(const char* name, BNCustomFlowGraphLayout* callbacks)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNRegisterFlowGraphLayout"
+        )]
+		internal static extern IntPtr BNRegisterFlowGraphLayout(
+			
+			// const char* name
+		    string name  , 
+			
+			// BNCustomFlowGraphLayout* callbacks
+		    IntPtr callbacks  
+			
+		);
+	}
+}

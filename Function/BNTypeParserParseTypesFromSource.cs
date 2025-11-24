@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNTypeParserParseTypesFromSource(BNTypeParser* parser, const char* source, const char* fileName, BNPlatform* platform, BNTypeContainer* existingTypes, const char** options, uint64_t optionCount, const char** includeDirs, uint64_t includeDirCount, const char* autoTypeSource, BNTypeParserResult* result, BNTypeParserError** errors, uint64_t* errorCount)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNTypeParserParseTypesFromSource"
+        )]
+		internal static extern bool BNTypeParserParseTypesFromSource(
+			
+			// BNTypeParser* parser
+		    IntPtr parser  , 
+			
+			// const char* source
+		    string source  , 
+			
+			// const char* fileName
+		    string fileName  , 
+			
+			// BNPlatform* platform
+		    IntPtr platform  , 
+			
+			// BNTypeContainer* existingTypes
+		    IntPtr existingTypes  , 
+			
+			// const char** options
+		    string[] options  , 
+			
+			// uint64_t optionCount
+		    ulong optionCount  , 
+			
+			// const char** includeDirs
+		    string[] includeDirs  , 
+			
+			// uint64_t includeDirCount
+		    ulong includeDirCount  , 
+			
+			// const char* autoTypeSource
+		    string autoTypeSource  , 
+			
+			// BNTypeParserResult* result
+		    IntPtr result  , 
+			
+			// BNTypeParserError** errors
+		    IntPtr errors  , 
+			
+			// uint64_t* errorCount
+		    IntPtr errorCount  
+			
+		);
+	}
+}

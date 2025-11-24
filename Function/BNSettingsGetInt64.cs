@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// int64_t BNSettingsGetInt64(BNSettings* settings, const char* key, BNBinaryView* view, BNFunction* func, BNSettingsScope* scope)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNSettingsGetInt64"
+        )]
+		internal static extern long BNSettingsGetInt64(
+			
+			// BNSettings* settings
+		    IntPtr settings  , 
+			
+			// const char* key
+		    string key  , 
+			
+			// BNBinaryView* view
+		    IntPtr view  , 
+			
+			// BNFunction* func
+		    IntPtr func  , 
+			
+			// BNSettingsScope* scope
+		    IntPtr scope  
+			
+		);
+	}
+}

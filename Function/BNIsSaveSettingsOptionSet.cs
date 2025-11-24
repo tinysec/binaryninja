@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNIsSaveSettingsOptionSet(BNSaveSettings* settings, BNSaveOption option)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNIsSaveSettingsOptionSet"
+        )]
+		internal static extern bool BNIsSaveSettingsOptionSet(
+			
+			// BNSaveSettings* settings
+		    IntPtr settings  , 
+			
+			// BNSaveOption option
+		    SaveOption option  
+		);
+	}
+}

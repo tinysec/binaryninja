@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// BNNamedTypeReference* BNCreateNamedType(BNNamedTypeReferenceClass cls, const char* id, BNQualifiedName* name)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNCreateNamedType"
+        )]
+		internal static extern IntPtr BNCreateNamedType(
+			
+			// BNNamedTypeReferenceClass cls
+		    NamedTypeReferenceClass cls  , 
+			
+			// const char* id
+		    string id  , 
+			
+			// BNQualifiedName* name
+		    in BNQualifiedName name  
+		);
+	}
+}

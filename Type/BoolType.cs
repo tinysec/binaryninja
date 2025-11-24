@@ -1,0 +1,23 @@
+using System;
+
+namespace BinaryNinja
+{
+	public sealed class BoolType : BinaryNinja.Type
+	{
+		public BoolType() : base( NativeMethods.BNCreateBoolType() , true)
+		{
+			
+		}
+		
+		public BoolType(BinaryNinja.Type type) 
+			: base( type.DangerousGetHandle() , true)
+		{
+			
+		}
+		
+		internal BoolType(IntPtr handle , bool owner) : base(handle , owner)
+		{
+			
+		}
+	}
+}

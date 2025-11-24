@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// void BNBasicBlockAddInstructionData(BNBasicBlock* block, void* data, uint64_t len)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNBasicBlockAddInstructionData"
+        )]
+		internal static extern void BNBasicBlockAddInstructionData(
+			
+			// BNBasicBlock* block
+		    IntPtr block  , 
+			
+			// void* data
+		    byte[] data  , 
+			
+			// uint64_t len
+		    ulong len  
+		);
+	}
+}

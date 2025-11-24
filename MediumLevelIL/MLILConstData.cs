@@ -1,0 +1,22 @@
+namespace BinaryNinja
+{
+	public sealed class MLILConstData : MediumLevelILInstruction
+	{
+		internal MLILConstData(
+			MediumLevelILFunction ilFunction, 
+			MediumLevelILExpressionIndex expressionIndex ,
+			BNMediumLevelILInstruction native
+		) :base(ilFunction, expressionIndex , native)
+		{
+			
+		}
+		
+		public RegisterValue ConstantData
+		{
+			get
+			{
+				return this.GetOperandAsConstantData((OperandIndex)0,(OperandIndex)1);
+			}
+		}
+	}
+}

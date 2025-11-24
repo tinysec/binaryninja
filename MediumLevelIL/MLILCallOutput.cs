@@ -1,0 +1,22 @@
+namespace BinaryNinja
+{
+	public sealed class MLILCallOutput : MediumLevelILInstruction
+	{
+		internal MLILCallOutput(
+			MediumLevelILFunction ilFunction, 
+			MediumLevelILExpressionIndex expressionIndex ,
+			BNMediumLevelILInstruction native
+		) :base(ilFunction, expressionIndex , native)
+		{
+			
+		}
+		
+		public MediumLevelILVariable[] Destination
+		{
+			get
+			{
+				return this.GetOperandAsVariableList(0);
+			}
+		}
+	}
+}

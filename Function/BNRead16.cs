@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNRead16(BNBinaryReader* stream, uint16_t* result)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNRead16"
+        )]
+		internal static extern bool BNRead16(
+			
+			// BNBinaryReader* stream
+		    IntPtr stream  , 
+			
+			// uint16_t* result
+		    out ushort result  
+		);
+	}
+}

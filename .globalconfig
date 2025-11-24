@@ -1,0 +1,3 @@
+is_global = true
+dotnet_diagnostic.CA1510.severity = none
+dotnet_diagnostic.CA1822.severity = none
