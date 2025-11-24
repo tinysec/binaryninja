@@ -120,7 +120,7 @@ namespace Dummy
 			return 1; // success
 		}
         
-                public static void DefaultCommand(BinaryView view )
+        public static void DefaultCommand(BinaryView view )
 		{
 			Logger logger = BinaryNinja.Logger.GetOrCreateLogger("Dummy");
 			
