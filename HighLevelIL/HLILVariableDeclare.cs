@@ -1,0 +1,24 @@
+namespace BinaryNinja
+{
+	public sealed class HLILVariableDeclare : HighLevelILInstruction
+	{
+		internal HLILVariableDeclare(
+			HighLevelILFunction ilFunction, 
+			HighLevelILExpressionIndex expressionIndex ,
+			BNHighLevelILInstruction native
+		) : base(ilFunction , expressionIndex, native)
+		{
+			
+		}
+		
+		/*
+		public HighLevelILVariable Variable
+		{
+			get
+			{
+				return this.GetOperandAsVariable((OperandIndex)0);
+			}
+		}
+		*/
+	}
+}

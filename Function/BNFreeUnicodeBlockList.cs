@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// void BNFreeUnicodeBlockList(uint32_t** starts, uint32_t** ends, uint64_t* blockCounts, uint64_t blockListCounts)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNFreeUnicodeBlockList"
+        )]
+		internal static extern void BNFreeUnicodeBlockList(
+			
+			// uint32_t** starts
+		    IntPtr starts  , 
+			
+			// uint32_t** ends
+		    IntPtr ends  , 
+			
+			// uint64_t* blockCounts
+		    IntPtr blockCounts  , 
+			
+			// uint64_t blockListCounts
+		    ulong blockListCounts  
+			
+		);
+	}
+}

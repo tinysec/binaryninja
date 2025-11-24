@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// BNLanguageRepresentationFunctionType* BNRegisterLanguageRepresentationFunctionType(const char* name, BNCustomLanguageRepresentationFunctionType* type)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNRegisterLanguageRepresentationFunctionType"
+        )]
+		internal static extern IntPtr BNRegisterLanguageRepresentationFunctionType(
+			
+			// const char* name
+		    string name  , 
+			
+			// BNCustomLanguageRepresentationFunctionType* type
+		    IntPtr type  
+			
+		);
+	}
+}

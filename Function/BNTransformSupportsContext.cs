@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNTransformSupportsContext(BNTransform* xform)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNTransformSupportsContext"
+        )]
+		internal static extern bool BNTransformSupportsContext(
+			
+			// BNTransform* xform
+		    IntPtr xform  
+		);
+	}
+}

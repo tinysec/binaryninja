@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNSettingsUpdateStringProperty(BNSettings* settings, const char* key, const char* property, const char* value)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNSettingsUpdateStringProperty"
+        )]
+		internal static extern bool BNSettingsUpdateStringProperty(
+			
+			// BNSettings* settings
+		    IntPtr settings  , 
+			
+			// const char* key
+		    string key  , 
+			
+			// const char* property
+		    string property  , 
+			
+			// const char* _value
+		    string _value  
+			
+		);
+	}
+}

@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNWriteBE64(BNBinaryWriter* stream, uint64_t val)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNWriteBE64"
+        )]
+		internal static extern bool BNWriteBE64(
+			
+			// BNBinaryWriter* stream
+		    IntPtr stream  , 
+			
+			// uint64_t val
+		    ulong val  
+			
+		);
+	}
+}

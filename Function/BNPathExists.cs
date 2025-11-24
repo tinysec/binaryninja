@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNPathExists(const char* path)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNPathExists"
+        )]
+		internal static extern bool BNPathExists(
+			
+			// const char* path
+		    string path  
+			
+		);
+	}
+}

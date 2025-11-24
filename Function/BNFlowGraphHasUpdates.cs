@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNFlowGraphHasUpdates(BNFlowGraph* graph)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNFlowGraphHasUpdates"
+        )]
+		internal static extern bool BNFlowGraphHasUpdates(
+			
+			// BNFlowGraph* graph
+		    IntPtr graph  
+			
+		);
+	}
+}

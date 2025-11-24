@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>BinaryNinja</RootNamespace>
+        <AssemblyName>BinaryNinja</AssemblyName>
+
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latestmajor</LangVersion>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>library</OutputType>
+
+        <NativeLib>Shared</NativeLib>
+        <PublishAot>true</PublishAot>
+        <IsAotCompatible>true</IsAotCompatible>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <!-- version -->
+        <Version>0.1.0.0</Version>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileVersion>0.1.0.0</FileVersion>
+        <ProductVersion>0.1.0.0</ProductVersion>
+        <Company>tinysec.net</Company>
+        <Product>SharpBinja</Product>
+        <Copyright>tinysec©2006-2025</Copyright>
+        <Description>BinaryNinja dotnet bindings</Description>
+    </PropertyGroup>
+
+    <!-- for Windows -->
+    <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
+</Project>

@@ -1,0 +1,30 @@
+namespace BinaryNinja
+{
+	public sealed class HLILAssign : HighLevelILInstruction
+	{
+		internal HLILAssign(
+			HighLevelILFunction ilFunction, 
+			HighLevelILExpressionIndex expressionIndex ,
+			BNHighLevelILInstruction native
+		) : base(ilFunction , expressionIndex, native)
+		{
+			
+		}
+		
+		public HighLevelILInstruction Destination
+		{
+			get
+			{
+				return this.GetOperandAsExpression((OperandIndex)0);
+			}
+		}
+		
+		public HighLevelILInstruction Source
+		{
+			get
+			{
+				return this.GetOperandAsExpression((OperandIndex)1);
+			}
+		}
+	}
+}

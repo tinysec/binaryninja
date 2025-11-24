@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// bool BNComponentRemoveFunctionReference(BNComponent* component, BNFunction* function)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            EntryPoint = "BNComponentRemoveFunctionReference"
+        )]
+		internal static extern bool BNComponentRemoveFunctionReference(
+			
+			// BNComponent* component
+		    IntPtr component  , 
+			
+			// BNFunction* function
+		    IntPtr function  
+		);
+	}
+}

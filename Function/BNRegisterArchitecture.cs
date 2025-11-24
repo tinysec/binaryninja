@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+
+namespace BinaryNinja
+{
+    internal static partial class NativeMethods
+    {
+	    /// <summary>
+		/// BNArchitecture* BNRegisterArchitecture(const char* name, BNCustomArchitecture* arch)
+		/// </summary>
+		[DllImport(
+            "binaryninjacore", 
+            CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi,
+            EntryPoint = "BNRegisterArchitecture"
+        )]
+		internal static extern IntPtr BNRegisterArchitecture(
+			
+			// const char* name
+		    string name  , 
+			
+			// BNCustomArchitecture* arch
+		    IntPtr arch  
+		);
+	}
+}
