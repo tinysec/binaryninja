@@ -116,7 +116,6 @@ jobs:
           files: artifacts/*.*
           
       - name: publish to NuGet
-        if: ${{ always() && secrets.NUGET_TOKEN != '' }}
         continue-on-error: true
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
