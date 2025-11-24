@@ -84,7 +84,7 @@ jobs:
           ls -lh artifacts
 
       - name: upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           name: ${{ matrix.platform }}-v${{ needs.version.outputs.version }}
@@ -116,7 +116,7 @@ jobs:
           files: artifacts/*.*
           
       - name: publish to NuGet
-        if: secrets.NUGET_TOKEN != ''
+        continue-on-error: true
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
         run: |

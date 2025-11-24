@@ -1,7 +1,7 @@
 # BinaryNinja C# Bindings (Typed, Safe, Native AOT Ready)
 
 [![Build](https://img.shields.io/github/actions/workflow/status/tinysec/binaryninja/ci.yml?branch=master)](https://github.com/tinysec/binaryninja/actions)
-[![NuGet](https://img.shields.io/nuget/v/BinaryNinjaBindings.svg)](https://www.nuget.org/packages/BinaryNinjaBindings)
+[![NuGet](https://img.shields.io/nuget/v/BinaryNinja.svg)](https://www.nuget.org/packages/BinaryNinja)
 ![License](https://img.shields.io/github/license/tinysec/binaryninja)
 ![Platforms](https://img.shields.io/badge/platforms-windows%20%7C%20linux-blue)
 ![.NET](https://img.shields.io/badge/.NET-%3E%3D%208.0-512BD4)
@@ -147,7 +147,7 @@ namespace Dummy
 ## Troubleshooting
 
 - DllNotFoundException / EntryPointNotFoundException
-    - Ensure native libs are on PATH/LD_LIBRARY_PATH or set BINARYNINJA_BASE
+    - Ensure set BINARYNINJA_BASE
     - On Native AOT, confirm your RID is correct and you published with PublishAot=true
 - AccessViolationException
     - Check lifetime: ensure using-statements dispose views/sessions before exit
