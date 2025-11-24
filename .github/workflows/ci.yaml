@@ -93,8 +93,7 @@ jobs:
   release:
     needs: [ version , build ]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.ref == 'refs/heads/master' && secrets.GIT_TOKEN != ''
-
+    if: github.ref == 'refs/heads/master' && github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -114,11 +113,10 @@ jobs:
           generate_releases: true
           draft: false
           prerelease: true
-          token: ${{ secrets.GIT_TOKEN }}
           files: artifacts/*.*
           
       - name: publish to NuGet
-        if: ${{ secrets.NUGET_TOKEN != '' }}
+        if: secrets.NUGET_TOKEN != ''
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
         run: |
