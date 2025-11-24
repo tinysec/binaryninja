@@ -19,10 +19,19 @@
         <AssemblyVersion>0.1.0.0</AssemblyVersion>
         <FileVersion>0.1.0.0</FileVersion>
         <ProductVersion>0.1.0.0</ProductVersion>
-        <Company>tinysec.net</Company>
-        <Product>SharpBinja</Product>
+        <Company>https://github.com/tinysec</Company>
+        <Product>BinaryNinja</Product>
         <Copyright>tinysec©2006-2025</Copyright>
         <Description>BinaryNinja dotnet bindings</Description>
+
+        <!-- NuGet Package properties -->
+        <PackageId>BinaryNinja</PackageId>
+        <PackageTags>binaryninja bn bnapi bindings</PackageTags>
+        <Authors>https://github.com/tinysec</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/tinysec/BinaryNinja</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/tinysec/BinaryNinja.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <!-- for Windows -->

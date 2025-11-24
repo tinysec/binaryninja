@@ -76,6 +76,11 @@ jobs:
           echo "[+] build windows"
           dotnet publish -r win-x64 --self-contained=true -c Release -p:PublishDir=build /p:Version=${{ needs.version.outputs.version }} /p:FileVersion=${{ needs.version.outputs.version }} /p:AssemblyVersion=${{ needs.version.outputs.version }} /p:ProductVersion=${{ needs.version.outputs.version }}
 
+      - name: pack
+        run: |
+          echo "[+] Packing NuGet package"
+          dotnet pack --configuration Release -o build /p:Version=${{ needs.version.outputs.version }}
+
       - name: collect artifacts
         shell: bash
         run: |
