@@ -1,6 +1,5 @@
 # BinaryNinja C# Bindings (Typed, Safe, Native AOT Ready)
 
-[![Build](https://img.shields.io/github/actions/workflow/status/tinysec/binaryninja/ci.yml?branch=master)](https://github.com/tinysec/binaryninja/actions)
 [![NuGet](https://img.shields.io/nuget/v/BinaryNinja.svg)](https://www.nuget.org/packages/BinaryNinja)
 ![License](https://img.shields.io/github/license/tinysec/binaryninja)
 ![Platforms](https://img.shields.io/badge/platforms-windows%20%7C%20linux-blue)
@@ -53,7 +52,7 @@ class Program
             throw new Exception("load fail");
         }
         
-        foreach(Function? function in view.Functions)
+        foreach(Function function in view.Functions)
         {
             Console.WriteLine(function.RawName);
         }
