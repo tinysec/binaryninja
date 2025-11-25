@@ -46,7 +46,6 @@ namespace BinaryNinja
 				true
 			);
 		}
-
 		
 		public HighLevelILInstruction this[HighLevelILInstructionIndex index]
 		{
@@ -289,7 +288,6 @@ namespace BinaryNinja
 			    return this.GetDominatorTreeChildren(true);
 		    }
 	    }
-	    
 	    
 	    public HighLevelILBasicBlock[] GetDominanceFrontier(bool post)
 	    {
