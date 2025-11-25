@@ -6,7 +6,7 @@ namespace BinaryNinja
 {
 	public sealed class HighLevelILBasicBlock : AbstractBasicBlock<HighLevelILBasicBlock>
 	{
-		internal HighLevelILFunction ILFunction { get; } 
+		public HighLevelILFunction ILFunction { get; } 
 
 		internal HighLevelILBasicBlock(
 			HighLevelILFunction function ,
@@ -46,7 +46,6 @@ namespace BinaryNinja
 				true
 			);
 		}
-
 		
 		public HighLevelILInstruction this[HighLevelILInstructionIndex index]
 		{
@@ -289,7 +288,6 @@ namespace BinaryNinja
 			    return this.GetDominatorTreeChildren(true);
 		    }
 	    }
-	    
 	    
 	    public HighLevelILBasicBlock[] GetDominanceFrontier(bool post)
 	    {

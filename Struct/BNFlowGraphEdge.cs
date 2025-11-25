@@ -39,30 +39,45 @@ namespace BinaryNinja
 		internal BNEdgeStyle style;
 	}
 
-    public abstract class AbstractFlowGraphEdge<T_FLOW_GRAPH_NODE>  : INativeWrapperEx<BNFlowGraphEdge>
+    public abstract class AbstractFlowGraphEdge<T_FLOW_GRAPH_NODE> 
+	    : INativeWrapperEx<BNFlowGraphEdge>
 		where T_FLOW_GRAPH_NODE :  FlowGraphNode
     {
-		public BranchType Type { get; set; } = new BranchType();
+		public BranchType Type {get;} = BranchType.UnconditionalBranch;
 		
-		public T_FLOW_GRAPH_NODE? Target { get; set; } = null;
+		public T_FLOW_GRAPH_NODE Source {get;}
 		
-		public Point[] Points { get; set; } = Array.Empty<Point>();
+		public T_FLOW_GRAPH_NODE Target {get;}
 		
-		public bool BackEdge { get; set; } = false;
+		public Point[] Points {get;} = Array.Empty<Point>();
 		
-		public EdgeStyle Style { get; set; } = new EdgeStyle();
+		public bool BackEdge {get;} = false;
 		
-		public AbstractFlowGraphEdge(BNFlowGraphEdge native , T_FLOW_GRAPH_NODE? target ) 
+		public EdgeStyle Style {get;} = new EdgeStyle();
+		
+		public bool Outgoing { get;} = false;
+		
+		public AbstractFlowGraphEdge(
+			BNFlowGraphEdge native , 
+			T_FLOW_GRAPH_NODE source, 
+			T_FLOW_GRAPH_NODE target ,
+			bool outgoing
+		) 
 		{
 		    this.Type = native.type ;
+		 
+		    this.Source = source;
 		    
 		    this.Target = target ;
+		    
+		    this.Outgoing = outgoing;
 
 		    this.Points = UnsafeUtils.ReadStructArray<BNPoint , Point>(
 			    native.points ,
 			    native.pointCount ,
 			    Point.FromNative
 		    );
+		    
 		    this.BackEdge = native.backEdge;
 		    this.Style = EdgeStyle.FromNative(native.style) ;
 		}

@@ -155,8 +155,5 @@ namespace BinaryNinja
 			    (ulong)points.Length
 		    );
 	    }
-	    
-	   
-
 	}
 }
