@@ -39,7 +39,8 @@ namespace BinaryNinja
 		internal BNEdgeStyle style;
 	}
 
-    public abstract class AbstractFlowGraphEdge<T_FLOW_GRAPH_NODE>  : INativeWrapperEx<BNFlowGraphEdge>
+    public abstract class AbstractFlowGraphEdge<T_FLOW_GRAPH_NODE> 
+	    : INativeWrapperEx<BNFlowGraphEdge>
 		where T_FLOW_GRAPH_NODE :  FlowGraphNode
     {
 		public BranchType Type {get;} = BranchType.UnconditionalBranch;
