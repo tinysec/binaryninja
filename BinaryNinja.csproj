@@ -27,11 +27,12 @@
         <!-- NuGet Package properties -->
         <PackageId>BinaryNinja</PackageId>
         <PackageTags>binaryninja bn bnapi bindings</PackageTags>
-        <Authors>https://github.com/tinysec</Authors>
+        <Authors>tinysec</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/tinysec/BinaryNinja</PackageProjectUrl>
         <RepositoryUrl>https://github.com/tinysec/BinaryNinja.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <!-- for Windows -->
@@ -39,4 +40,16 @@
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="LICENSE">
+        <Pack>true</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      
+      <None Include="README.md">
+        <Pack>true</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
 </Project>
