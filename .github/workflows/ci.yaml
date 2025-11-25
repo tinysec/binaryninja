@@ -13,12 +13,8 @@ env:
   VERSION_MINOR: 1
 
 jobs:
-  version:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-      build: ${{ steps.version.outputs.build }}
-      revision: ${{ steps.version.outputs.revision }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -41,95 +37,42 @@ jobs:
           echo "  - Build: ${BUILD_NUMBER}"
           echo "  - Revision (Run Number): ${REVISION}"
 
-  build:
-    needs: version
-    strategy:
-      matrix:
-        include:
-          - os: windows-latest
-            platform: windows
-          - os: ubuntu-latest
-            platform: linux
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
       - name: setup .NET
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
-
-      - name: build (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          echo "[+] build linux"
-          dotnet publish -r linux-x64 --self-contained=true -c Release -p:PublishDir=build /p:Version=${{ needs.version.outputs.version }} /p:FileVersion=${{ needs.version.outputs.version }} /p:AssemblyVersion=${{ needs.version.outputs.version }} /p:ProductVersion=${{ needs.version.outputs.version }}
-
-      - name: build (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          echo "[+] build windows"
-          dotnet publish -r win-x64 --self-contained=true -c Release -p:PublishDir=build /p:Version=${{ needs.version.outputs.version }} /p:FileVersion=${{ needs.version.outputs.version }} /p:AssemblyVersion=${{ needs.version.outputs.version }} /p:ProductVersion=${{ needs.version.outputs.version }}
-
+          
       - name: pack
         if: runner.os == 'Linux'
         run: |
           echo "[+] Packing NuGet package"
-          dotnet pack --configuration Release -o build -p:PublishDir=build /p:Version=${{ needs.version.outputs.version }} /p:FileVersion=${{ needs.version.outputs.version }} /p:AssemblyVersion=${{ needs.version.outputs.version }} /p:ProductVersion=${{ needs.version.outputs.version }}
-
-      - name: collect artifacts
-        shell: bash
-        run: |
-          mkdir -p artifacts
-          cp build/* artifacts/
-          ls -lh artifacts
-
-      - name: upload artifacts
-        uses: actions/upload-artifact@v4
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        with:
-          name: ${{ matrix.platform }}-v${{ needs.version.outputs.version }}
-          path: artifacts/**
-
-  release:
-    needs: [ version , build ]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.ref == 'refs/heads/master' && github.event_name == 'push'
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-          merge-multiple: true
+          dotnet pack --configuration Release -o artifacts -p:PublishDir=artifacts /p:Version=${{ steps.version.outputs.version }} /p:FileVersion=${{ steps.version.outputs.version }} /p:AssemblyVersion=${{ steps.version.outputs.version }} /p:ProductVersion=${{ steps.version.outputs.version }}
 
       - name: create release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        continue-on-error: true
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ needs.version.outputs.version }}
-          name: release v${{ needs.version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.version }}
+          name: release v${{ steps.version.outputs.version }}
           generate_release_notes: true
           draft: false
           prerelease: true
           files: artifacts/**
-          
+
       - name: publish to NuGet
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         continue-on-error: true
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
         run: |
-          echo "[+] Publishing NuGet packages with version ${{ needs.version.outputs.version }}"
-          shopt -s globstar nullglob
+          if [[ -z "${NUGET_AUTH_TOKEN}" ]]; then
+              echo "[!] NUGET_TOKEN not exists , skip."; exit 0
+          fi
           
+          echo "[+] Publishing NuGet packages with version ${{ steps.version.outputs.version }}"
+          shopt -s globstar nullglob
+
           for pkg in artifacts/**/*.nupkg; do
             if [[ "$pkg" == *.snupkg ]]; then
               continue
@@ -140,3 +83,4 @@ jobs:
               --source "https://api.nuget.org/v3/index.json" \
               --skip-duplicate
           done
+  
