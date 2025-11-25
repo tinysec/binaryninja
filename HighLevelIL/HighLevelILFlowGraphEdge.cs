@@ -2,25 +2,40 @@ namespace BinaryNinja
 {
 	public sealed class HighLevelILFlowGraphEdge : AbstractFlowGraphEdge<HighLevelILFlowGraphNode>
 	{
-		public HighLevelILFunction ILFunction { get; }
-		
 		internal HighLevelILFlowGraphEdge(
-			HighLevelILFunction ilFunction,
-			BNFlowGraphEdge native)
-			: base(native , HighLevelILFlowGraphNode.NewFromHandleEx(ilFunction, native.target))
+			BNFlowGraphEdge native,
+			HighLevelILFlowGraphNode source,
+			HighLevelILFlowGraphNode target,
+			bool outgoing
+		) : base(native , source, target, outgoing)
 		{
-			this.ILFunction = ilFunction;
+			
 		}
 		
 		internal static HighLevelILFlowGraphEdge FromNativeEx(
-			HighLevelILFunction ilFunction,
-			BNFlowGraphEdge native
+			BNFlowGraphEdge native,
+			HighLevelILFlowGraphNode me,
+			bool outgoing
 		)
 		{
-			return new HighLevelILFlowGraphEdge(
-				ilFunction ,
-				native
-			);
+			if (outgoing)
+			{
+				return new HighLevelILFlowGraphEdge(
+					native,
+					me , 
+					HighLevelILFlowGraphNode.MustNewFromHandleEx(me.ILFunction, native.target),
+					outgoing
+				);
+			}
+			else
+			{
+				return new HighLevelILFlowGraphEdge(
+					native,
+					HighLevelILFlowGraphNode.MustNewFromHandleEx(me.ILFunction,native.target) , 
+					me,
+					outgoing
+				);
+			}
 		}
 	}
 }

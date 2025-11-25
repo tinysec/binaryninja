@@ -44,7 +44,9 @@ namespace BinaryNinja
     {
 		public BranchType Type {get;} = BranchType.UnconditionalBranch;
 		
-		public T_FLOW_GRAPH_NODE? Target {get;} = null;
+		public T_FLOW_GRAPH_NODE Source {get;}
+		
+		public T_FLOW_GRAPH_NODE Target {get;}
 		
 		public Point[] Points {get;} = Array.Empty<Point>();
 		
@@ -62,14 +64,19 @@ namespace BinaryNinja
 		) 
 		{
 		    this.Type = native.type ;
+		 
+		    this.Source = source;
 		    
 		    this.Target = target ;
+		    
+		    this.Outgoing = outgoing;
 
 		    this.Points = UnsafeUtils.ReadStructArray<BNPoint , Point>(
 			    native.points ,
 			    native.pointCount ,
 			    Point.FromNative
 		    );
+		    
 		    this.BackEdge = native.backEdge;
 		    this.Style = EdgeStyle.FromNative(native.style) ;
 		}

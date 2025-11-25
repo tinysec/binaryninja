@@ -188,7 +188,6 @@ namespace BinaryNinja
 		    }
 		    else
 		    {
-			   
 			    return new BasicBlockEdge(
 				    native, 
 				    BasicBlock.MustNewFromHandle(native.target) , 
