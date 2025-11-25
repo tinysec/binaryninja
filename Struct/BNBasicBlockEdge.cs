@@ -36,17 +36,17 @@ namespace BinaryNinja
 		where T_SELF : AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK>
 		where T_BASICBLOCK : AbstractBasicBlock<T_BASICBLOCK>
     {
-	    public BranchType Type { get; } = BranchType.UnconditionalBranch;
+	    public BranchType Type {get;} = BranchType.UnconditionalBranch;
 		
-	    public T_BASICBLOCK Source { get; }
+	    public T_BASICBLOCK Source {get;}
 		
-	    public T_BASICBLOCK Target { get;  }
+	    public T_BASICBLOCK Target {get;}
 	    
-	    public bool BackEdge { get; } = false;
+	    public bool BackEdge { get;} = false;
 		
-	    public bool FallThrough { get;  } = false;
+	    public bool FallThrough { get;} = false;
 	    
-	    public bool Outgoing { get; } = false;
+	    public bool Outgoing { get;} = false;
 
 	    internal AbstractBasicBlockEdge( 
 		    BNBasicBlockEdge native ,

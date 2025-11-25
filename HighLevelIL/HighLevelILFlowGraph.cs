@@ -4,7 +4,7 @@ namespace BinaryNinja
 {
 	public sealed class HighLevelILFlowGraph : AbstractFlowGraph<HighLevelILFlowGraph>
 	{
-		internal HighLevelILFunction ILFunction { get; set; }
+		public HighLevelILFunction ILFunction { get; }
 		
 		internal HighLevelILFlowGraph(
 			HighLevelILFunction ilFunction,
@@ -95,8 +95,6 @@ namespace BinaryNinja
 			return new HighLevelILFlowGraph(ilFunction , handle, false);
 		}
 		
-		
-		
 		public HighLevelILFlowGraph? Update()
 		{
 			return HighLevelILFlowGraph.TakeHandleEx(
@@ -130,8 +128,7 @@ namespace BinaryNinja
 				NativeMethods.BNGetFlowGraphNode(this.handle, index)
 			);
 		}
-
-	    
+		
 		public HighLevelILFlowGraphNode[] GetNodesInRegion(
 			int left  , 
 			int top  , 

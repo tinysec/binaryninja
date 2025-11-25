@@ -6,7 +6,7 @@ namespace BinaryNinja
 {
 	public sealed class HighLevelILBasicBlock : AbstractBasicBlock<HighLevelILBasicBlock>
 	{
-		internal HighLevelILFunction ILFunction { get; } 
+		public HighLevelILFunction ILFunction { get; } 
 
 		internal HighLevelILBasicBlock(
 			HighLevelILFunction function ,

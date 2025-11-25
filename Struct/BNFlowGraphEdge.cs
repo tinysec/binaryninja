@@ -42,17 +42,24 @@ namespace BinaryNinja
     public abstract class AbstractFlowGraphEdge<T_FLOW_GRAPH_NODE>  : INativeWrapperEx<BNFlowGraphEdge>
 		where T_FLOW_GRAPH_NODE :  FlowGraphNode
     {
-		public BranchType Type { get; set; } = new BranchType();
+		public BranchType Type {get;} = BranchType.UnconditionalBranch;
 		
-		public T_FLOW_GRAPH_NODE? Target { get; set; } = null;
+		public T_FLOW_GRAPH_NODE? Target {get;} = null;
 		
-		public Point[] Points { get; set; } = Array.Empty<Point>();
+		public Point[] Points {get;} = Array.Empty<Point>();
 		
-		public bool BackEdge { get; set; } = false;
+		public bool BackEdge {get;} = false;
 		
-		public EdgeStyle Style { get; set; } = new EdgeStyle();
+		public EdgeStyle Style {get;} = new EdgeStyle();
 		
-		public AbstractFlowGraphEdge(BNFlowGraphEdge native , T_FLOW_GRAPH_NODE? target ) 
+		public bool Outgoing { get;} = false;
+		
+		public AbstractFlowGraphEdge(
+			BNFlowGraphEdge native , 
+			T_FLOW_GRAPH_NODE source, 
+			T_FLOW_GRAPH_NODE target ,
+			bool outgoing
+		) 
 		{
 		    this.Type = native.type ;
 		    

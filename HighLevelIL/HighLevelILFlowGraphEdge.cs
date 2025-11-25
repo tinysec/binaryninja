@@ -2,7 +2,7 @@ namespace BinaryNinja
 {
 	public sealed class HighLevelILFlowGraphEdge : AbstractFlowGraphEdge<HighLevelILFlowGraphNode>
 	{
-		internal HighLevelILFunction ILFunction { get; set; }
+		public HighLevelILFunction ILFunction { get; }
 		
 		internal HighLevelILFlowGraphEdge(
 			HighLevelILFunction ilFunction,

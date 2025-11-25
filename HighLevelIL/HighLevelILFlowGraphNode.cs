@@ -4,7 +4,7 @@ namespace BinaryNinja
 {
 	public sealed class HighLevelILFlowGraphNode : FlowGraphNode
 	{
-		internal HighLevelILFunction ILFunction { get; set; }
+		public HighLevelILFunction ILFunction { get; }
 		
 		internal HighLevelILFlowGraphNode(
 			HighLevelILFunction  ilFunction,
@@ -107,7 +107,6 @@ namespace BinaryNinja
 				false);
 		}
 		
-		
 		public HighLevelILBasicBlock? BasicBlock
 		{
 			get
@@ -131,11 +130,9 @@ namespace BinaryNinja
 		{
 			get
 			{
-				ulong arrayLength = 0;
-		    
 				IntPtr arrayPointer = NativeMethods.BNGetFlowGraphNodeIncomingEdges(
 					this.handle,
-					out arrayLength 
+					out ulong arrayLength 
 				);
 		    
 				return UnsafeUtils.TakeStructArrayEx<BNFlowGraphEdge,HighLevelILFlowGraphEdge>(
