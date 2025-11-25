@@ -21,19 +21,20 @@
         <ProductVersion>0.1.0.0</ProductVersion>
         <Company>https://github.com/tinysec</Company>
         <Product>BinaryNinja</Product>
-        <Copyright>tinysec©2006-2025</Copyright>
+        <Copyright>tinysec©2006</Copyright>
         <Description>BinaryNinja dotnet bindings</Description>
 
         <!-- NuGet Package properties -->
         <PackageId>BinaryNinja</PackageId>
         <PackageTags>binaryninja bn bnapi bindings</PackageTags>
         <Authors>tinysec</Authors>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/tinysec/BinaryNinja</PackageProjectUrl>
         <RepositoryUrl>https://github.com/tinysec/BinaryNinja.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
+
 
     <!-- for Windows -->
     <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
