@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
@@ -179,6 +181,63 @@ namespace BinaryNinja
 							UnsafeUtils.WrapProgressDelegate(progress)) ,
 					IntPtr.Zero
 				)
+			);
+		}
+
+		public static Task<BinaryView?> LoadFileAsync(
+			string filename ,
+			bool updateAnalysis = false ,
+			string options = "",
+			CancellationToken? cancellationToken = null
+		)
+		{
+			return Task.Run(() =>
+				{
+					bool cancelled = false;
+
+					ProgressDelegate progress = (param2 , param3) =>
+					{
+						if (null != cancellationToken)
+						{
+							if (cancellationToken.GetValueOrDefault().IsCancellationRequested)
+							{
+								cancelled = true;
+
+								return false;
+							}
+						}
+
+						return true;
+					};
+
+					if (cancelled)
+					{
+						return null;
+					}
+					
+					BinaryView? view =  BinaryView.TakeHandle(
+						NativeMethods.BNLoadFilename(
+							filename ,
+							updateAnalysis ,
+							options ,
+							Marshal.GetFunctionPointerForDelegate<NativeDelegates.BNProgressFunction>(
+									UnsafeUtils.WrapProgressDelegate(progress)) ,
+							IntPtr.Zero
+						)
+					);
+
+					if (null == view)
+					{
+						return null;
+					}
+					
+					if (cancelled && ( null != cancellationToken) )
+					{
+						cancellationToken.GetValueOrDefault().ThrowIfCancellationRequested();
+					}
+
+					return view;
+				}
 			);
 		}
 
