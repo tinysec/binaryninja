@@ -135,9 +135,9 @@ namespace BinaryNinja
 		}
 
 		public BinaryView? Load(
-			bool updateAnalysis ,
-			string options ,
-			ProgressDelegate? progress
+			bool updateAnalysis = false ,
+			string options = "",
+			ProgressDelegate? progress = null
 		)
 		{
 			return BinaryView.TakeHandle(
@@ -152,6 +152,63 @@ namespace BinaryNinja
 							) ,
 					IntPtr.Zero
 				)
+			);
+		}
+		
+		public Task<BinaryView?> LoadAsync(
+			bool updateAnalysis = false,
+			string options = "" ,
+			CancellationToken? cancellationToken = null
+		)
+		{
+			return Task.Run(() =>
+				{
+					bool cancelled = false;
+
+					ProgressDelegate progress = (param2 , param3) =>
+					{
+						if (null != cancellationToken)
+						{
+							if (cancellationToken.GetValueOrDefault().IsCancellationRequested)
+							{
+								cancelled = true;
+
+								return false;
+							}
+						}
+
+						return true;
+					};
+
+					if (cancelled)
+					{
+						return null;
+					}
+					
+					BinaryView? view =  BinaryView.TakeHandle(
+						NativeMethods.BNLoadBinaryView(
+							this.handle ,
+							updateAnalysis ,
+							options ,
+							Marshal.GetFunctionPointerForDelegate<NativeDelegates.BNProgressFunction>(
+								UnsafeUtils.WrapProgressDelegate(progress)
+							),
+							IntPtr.Zero
+						)
+					);
+
+					if (null == view)
+					{
+						return null;
+					}
+					
+					if (cancelled && ( null != cancellationToken) )
+					{
+						cancellationToken.GetValueOrDefault().ThrowIfCancellationRequested();
+					}
+
+					return view;
+				}
 			);
 		}
 
@@ -241,7 +298,7 @@ namespace BinaryNinja
 			);
 		}
 
-		public static BinaryView? OpenExisting(string filename , ProgressDelegate? progress = null)
+		public static BinaryView? OpenExistingDatabase(string filename , ProgressDelegate? progress = null)
 		{
 			FileMetadata file = new FileMetadata(filename);
 			
@@ -267,6 +324,62 @@ namespace BinaryNinja
 					)
 				);
 			}
+		}
+		
+		public static Task<BinaryView?> OpenExistingDatabaseAsync(
+			string filename ,
+			CancellationToken? cancellationToken = null
+		)
+		{
+			return Task.Run(() =>
+				{
+					bool cancelled = false;
+
+					ProgressDelegate progress = (param2 , param3) =>
+					{
+						if (null != cancellationToken)
+						{
+							if (cancellationToken.GetValueOrDefault().IsCancellationRequested)
+							{
+								cancelled = true;
+
+								return false;
+							}
+						}
+
+						return true;
+					};
+
+					if (cancelled)
+					{
+						return null;
+					}
+					
+					FileMetadata file = new FileMetadata(filename);
+					
+					BinaryView? view =  BinaryView.TakeHandle(
+						NativeMethods.BNOpenExistingDatabaseWithProgress(
+							file.DangerousGetHandle() ,
+							filename ,
+							Marshal.GetFunctionPointerForDelegate<NativeDelegates.BNProgressFunction>(
+								UnsafeUtils.WrapProgressDelegate(progress)) ,
+							IntPtr.Zero
+						)
+					);
+
+					if (null == view)
+					{
+						return null;
+					}
+					
+					if (cancelled && ( null != cancellationToken) )
+					{
+						cancellationToken.GetValueOrDefault().ThrowIfCancellationRequested();
+					}
+
+					return view;
+				}
+			);
 		}
 		
 		public BinaryView? Parent
