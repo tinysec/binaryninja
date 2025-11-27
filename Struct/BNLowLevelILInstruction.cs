@@ -1862,6 +1862,28 @@ namespace BinaryNinja
 			}
 		}
 		
+		public HighLevelILInstruction[] HighLevelILInstructions
+		{
+			get
+			{
+				List<HighLevelILInstruction> items = new List<HighLevelILInstruction>();
+				
+				foreach (HighLevelILInstruction highExpr in this.HighLevelILExpressions)
+				{
+					HighLevelILInstruction highInst = highExpr.ILFunction.MustGetInstruction(
+						highExpr.InstructionIndex
+					);
+
+					if (!items.Contains(highInst))
+					{
+						items.Add(highInst);
+					}
+				}
+
+				return items.ToArray();
+			}
+		}
+		
 		public RegisterValue GetRegisterValue(RegisterIndex register)
 		{
 			return RegisterValue.FromNative(
