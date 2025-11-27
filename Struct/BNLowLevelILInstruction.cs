@@ -1181,9 +1181,9 @@ namespace BinaryNinja
 			);
 		}
 		
-		public ILFlag GetOperandAsFlag(OperandIndex operand)
+		public Flag GetOperandAsFlag(OperandIndex operand)
 		{
-			return new ILFlag(
+			return new Flag(
 				this.ILFunction.OwnerFunction.Architecture , 
 				(FlagIndex)this.RawOperands[(ulong)operand]
 			);
@@ -1223,7 +1223,7 @@ namespace BinaryNinja
 				FlagIndex index = (FlagIndex)indexAndVersions[i];
 				ulong version = indexAndVersions[i + 1];
 				
-				ILFlag register = new ILFlag(
+				Flag register = new Flag(
 					this.ILFunction.OwnerFunction.Architecture ,
 					index
 				);
@@ -1236,9 +1236,9 @@ namespace BinaryNinja
 			return flags.ToArray();
 		}
 		
-		public ILRegister GetOperandAsRegister(OperandIndex operand)
+		public Register GetOperandAsRegister(OperandIndex operand)
 		{
-			return new ILRegister(
+			return new Register(
 				this.ILFunction.OwnerFunction.Architecture , 
 				(RegisterIndex)this.RawOperands[(ulong)operand]
 			);
@@ -1278,7 +1278,7 @@ namespace BinaryNinja
 				RegisterIndex index = (RegisterIndex)indexAndVersions[i];
 				ulong version = indexAndVersions[i + 1];
 				
-				ILRegister register = new ILRegister(
+				Register register = new Register(
 					this.ILFunction.OwnerFunction.Architecture ,
 					index
 				);
@@ -1450,7 +1450,7 @@ namespace BinaryNinja
 			{
 				if (0 != ( value & ( 1UL << 32 ) ))
 				{
-					ILFlag flag = new ILFlag(
+					Flag flag = new Flag(
 						this.ILFunction.OwnerFunction.Architecture ,
 						(FlagIndex)( value & 0xffffffff )
 					);
@@ -1459,7 +1459,7 @@ namespace BinaryNinja
 				}
 				else
 				{
-					ILRegister register = new ILRegister(
+					Register register = new Register(
 						this.ILFunction.OwnerFunction.Architecture ,
 						(RegisterIndex)( value & 0xffffffff )
 					);
@@ -1496,7 +1496,7 @@ namespace BinaryNinja
 
 				if (0 != ( paires[i] & ( 1UL << 32 ) ))
 				{
-					ILFlag flag = new ILFlag(
+					Flag flag = new Flag(
 						this.ILFunction.OwnerFunction.Architecture ,
 						(FlagIndex)( paires[i] & 0xffffffff )
 					);
@@ -1507,7 +1507,7 @@ namespace BinaryNinja
 				}
 				else
 				{
-					ILRegister register = new ILRegister(
+					Register register = new Register(
 						this.ILFunction.OwnerFunction.Architecture ,
 						(RegisterIndex)( paires[i] & 0xffffffff )
 					);
@@ -1790,6 +1790,28 @@ namespace BinaryNinja
 			}
 		}
 		
+		public MediumLevelILInstruction[] MediumLevelILInstructions
+		{
+			get
+			{
+				List<MediumLevelILInstruction> mediumInstrs = new List<MediumLevelILInstruction>();
+				
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					MediumLevelILInstruction mediumInst = mediumExpr.ILFunction.MustGetInstruction(
+						mediumExpr.InstructionIndex
+					);
+
+					if (!mediumInstrs.Contains(mediumInst))
+					{
+						mediumInstrs.Add(mediumInst);
+					}
+				}
+
+				return mediumInstrs.ToArray();
+			}
+		}
+		
 		public MediumLevelILInstruction? MappedMediumLevelILExpression
 		{
 			get
@@ -1837,6 +1859,28 @@ namespace BinaryNinja
 				return this.ILFunction.GetHighLevelILInstruction(
 					this.InstructionIndex
 				);
+			}
+		}
+		
+		public HighLevelILInstruction[] HighLevelILInstructions
+		{
+			get
+			{
+				List<HighLevelILInstruction> highInstrs = new List<HighLevelILInstruction>();
+				
+				foreach (HighLevelILInstruction highExpr in this.HighLevelILExpressions)
+				{
+					HighLevelILInstruction highInst = highExpr.ILFunction.MustGetInstruction(
+						highExpr.InstructionIndex
+					);
+
+					if (!highInstrs.Contains(highInst))
+					{
+						highInstrs.Add(highInst);
+					}
+				}
+
+				return highInstrs.ToArray();
 			}
 		}
 		

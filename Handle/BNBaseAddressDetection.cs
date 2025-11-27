@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class BaseAddressDetection : AbstractSafeHandle<BaseAddressDetection>
+	public sealed class BaseAddressDetection : AbstractSafeHandle
 	{
 	    internal BaseAddressDetection(IntPtr handle , bool owner)
 		    : base(handle , owner)

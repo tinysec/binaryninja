@@ -900,7 +900,7 @@ namespace BinaryNinja
 			{
 				return false;
 			}
-			
+
 			return this.ExpressionIndex == other.ExpressionIndex;
 		}
 
@@ -1381,6 +1381,29 @@ namespace BinaryNinja
 			}
 		}
 		
+		public LowLevelILInstruction[] LowLevelILInstructions
+		{
+			get
+			{
+				List<LowLevelILInstruction> lowInstrs = new List<LowLevelILInstruction>();
+				
+				foreach (LowLevelILInstruction lowExpr in this.LowLevelILExpressions)
+				{
+					LowLevelILInstruction lowInstr = lowExpr.ILFunction.MustGetInstruction(
+						lowExpr.InstructionIndex
+					);
+
+					if (!lowInstrs.Contains(lowInstr))
+					{
+						lowInstrs.Add(lowInstr);
+					}
+				}
+
+				return lowInstrs.ToArray();
+			}
+		}
+		
+		
 		// high
 		public HighLevelILInstruction? HighLevelILExpression
 		{
@@ -1403,6 +1426,28 @@ namespace BinaryNinja
 			get
 			{
 				return this.ILFunction.GetHighLevelILInstruction(this.InstructionIndex);
+			}
+		}
+		
+		public HighLevelILInstruction[] HighLevelILInstructions
+		{
+			get
+			{
+				List<HighLevelILInstruction> highInstrs = new List<HighLevelILInstruction>();
+				
+				foreach (HighLevelILInstruction highExpr in this.HighLevelILExpressions)
+				{
+					HighLevelILInstruction highInstr = highExpr.ILFunction.MustGetInstruction(
+						highExpr.InstructionIndex
+					);
+
+					if (!highInstrs.Contains(highInstr))
+					{
+						highInstrs.Add(highInstr);
+					}
+				}
+
+				return highInstrs.ToArray();
 			}
 		}
 		

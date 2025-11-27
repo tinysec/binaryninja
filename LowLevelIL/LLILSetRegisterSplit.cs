@@ -11,7 +11,7 @@ namespace BinaryNinja
 			
 		}
 
-		public ILRegister High
+		public Register High
 		{
 			get
 			{
@@ -19,7 +19,7 @@ namespace BinaryNinja
 			}
 		}
 		
-		public ILRegister Low
+		public Register Low
 		{
 			get
 			{

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class CollaborationUndoEntry : AbstractSafeHandle<CollaborationUndoEntry>
+	public sealed class CollaborationUndoEntry : AbstractSafeHandle
 	{
 	    public CollaborationUndoEntry(IntPtr handle , bool owner) 
 		    : base(handle , owner)

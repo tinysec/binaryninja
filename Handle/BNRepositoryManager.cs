@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class RepositoryManager : AbstractSafeHandle<RepositoryManager>
+	public sealed class RepositoryManager : AbstractSafeHandle
 	{
 	    internal RepositoryManager(IntPtr handle , bool owner)
 		    : base(handle , owner)

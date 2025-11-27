@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Metadata : AbstractSafeHandle<Metadata>
+	public sealed class Metadata : AbstractSafeHandle
 	{
 		public Metadata() 
 			: this(Metadata.rawCreateMetadataDict( new Dictionary<string , Metadata>()) , true)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Database :  AbstractSafeHandle<Database>
+	public sealed class Database :  AbstractSafeHandle
 	{
 	    internal Database(IntPtr handle , bool owner) 
 		    : base(handle , owner)

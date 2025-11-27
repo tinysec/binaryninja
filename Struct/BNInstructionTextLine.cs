@@ -22,10 +22,6 @@ namespace BinaryNinja
 
     public sealed class InstructionTextLine
     {
-	    public ulong Address { get; } = 0;
-		
-	    public byte[] Data { get; } = Array.Empty<byte>();
-	    
 		public InstructionTextToken[] Tokens { get; } = Array.Empty<InstructionTextToken>();
 	
 		public InstructionTextLine() 
@@ -33,11 +29,7 @@ namespace BinaryNinja
 			
 		}
 		
-		public InstructionTextLine(
-			ulong address,
-			byte[] data,
-			InstructionTextToken[] tokens
-		) 
+		public InstructionTextLine(InstructionTextToken[] tokens) 
 		{
 		    this.Tokens = tokens;
 		}

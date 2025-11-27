@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public class FlowGraphLayoutRequest : AbstractSafeHandle<FlowGraphLayoutRequest>
+	public class FlowGraphLayoutRequest : AbstractSafeHandle
 	{
 	    internal FlowGraphLayoutRequest(IntPtr handle , bool owner) 
 		    : base(handle , owner)

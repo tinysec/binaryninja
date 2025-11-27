@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class RemoteFolder : AbstractSafeHandle<RemoteFolder>
+	public sealed class RemoteFolder : AbstractSafeHandle
 	{
 	    internal RemoteFolder(IntPtr handle , bool owner) 
 		    : base(handle , owner)

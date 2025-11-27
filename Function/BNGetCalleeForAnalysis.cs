@@ -13,7 +13,6 @@ namespace BinaryNinja
 		[DllImport(
             "binaryninjacore", 
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
-            CharSet = CharSet.Ansi,
             EntryPoint = "BNGetCalleeForAnalysis"
         )]
 		internal static extern IntPtr BNGetCalleeForAnalysis(
@@ -29,7 +28,6 @@ namespace BinaryNinja
 			
 			// bool exact
 		    bool exact  
-			
 		);
 	}
 }

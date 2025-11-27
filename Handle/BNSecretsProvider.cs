@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class SecretsProvider : AbstractSafeHandle<SecretsProvider>
+	public sealed class SecretsProvider : AbstractSafeHandle
 	{
 		internal SecretsProvider(IntPtr handle)
 			:base(handle , false)

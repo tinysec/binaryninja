@@ -9,7 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Function : AbstractSafeHandle<Function>
+	public sealed class Function : AbstractSafeHandle
 	{
 	    internal Function(IntPtr handle , bool owner) 
 		    : base(handle , owner)
@@ -283,6 +283,108 @@ namespace BinaryNinja
 		    {
 			    return NativeMethods.BNFunctionHasUserType(this.handle);
 		    }
+	    }
+
+	    public void SetAutoReturnType(TypeWithConfidence type)
+	    {
+		    NativeMethods.BNSetAutoFunctionReturnType(
+			    this.handle,
+			    type.ToNative()
+			);
+	    }
+	    
+	    public void SetUserReturnType(TypeWithConfidence type)
+	    {
+		    NativeMethods.BNSetUserFunctionReturnType(
+			    this.handle,
+			    type.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoCallingConvention(CallingConventionWithConfidence convention)
+	    {
+		    NativeMethods.BNSetAutoFunctionCallingConvention(
+			    this.handle,
+			    convention.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserCallingConvention(CallingConventionWithConfidence convention)
+	    {
+		    NativeMethods.BNSetUserFunctionCallingConvention(
+			    this.handle,
+			    convention.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoParameterVariables(ParameterVariablesWithConfidence parameterVariables)
+	    {
+		    using (ScopedAllocator allocator = new ScopedAllocator())
+		    {
+			    NativeMethods.BNSetAutoFunctionParameterVariables(
+				    this.handle,
+				    parameterVariables.ToNativeEx(allocator)
+			    );
+		    }
+	    }
+	    
+	    public void SetUserParameterVariables(ParameterVariablesWithConfidence parameterVariables)
+	    {
+		    using (ScopedAllocator allocator = new ScopedAllocator())
+		    {
+			    NativeMethods.BNSetUserFunctionParameterVariables(
+				    this.handle,
+				    parameterVariables.ToNativeEx(allocator)
+			    );
+		    }
+	    }
+
+	    public void SetAutoHasVariableArguments(BoolWithConfidence  hasVariableArguments)
+	    {
+		    NativeMethods.BNSetAutoFunctionHasVariableArguments(
+			    this.handle ,
+			    hasVariableArguments.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserHasVariableArguments(BoolWithConfidence  hasVariableArguments)
+	    {
+		    NativeMethods.BNSetUserFunctionHasVariableArguments(
+			    this.handle ,
+			    hasVariableArguments.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoCanReturn(BoolWithConfidence  canReturn)
+	    {
+		    NativeMethods.BNSetAutoFunctionCanReturn(
+			    this.handle ,
+			    canReturn.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserCanReturn(BoolWithConfidence  canReturn)
+	    {
+		    NativeMethods.BNSetUserFunctionCanReturn(
+			    this.handle ,
+			    canReturn.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoPure(BoolWithConfidence  pure)
+	    {
+		    NativeMethods.BNSetAutoFunctionPure(
+			    this.handle ,
+			    pure.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserPure(BoolWithConfidence  pure)
+	    {
+		    NativeMethods.BNSetUserFunctionPure(
+			    this.handle ,
+			    pure.ToNative()
+		    );
 	    }
 	    
 	    public bool HasExplicitlyDefinedType
@@ -821,7 +923,7 @@ namespace BinaryNinja
 			    return UnsafeUtils.TakeStructArrayEx<BNVariableNameAndType , VariableNameAndType>(
 				    arrayPointer ,
 				    arrayLength ,
-				    VariableNameAndType.FromNative ,
+				    (_native) => VariableNameAndType.FromNativeEx(this, _native) ,
 				    NativeMethods.BNFreeVariableNameAndTypeList
 			    );
 		    }
@@ -839,9 +941,27 @@ namespace BinaryNinja
 			    return UnsafeUtils.TakeStructArrayEx<BNVariableNameAndType , VariableNameAndType>(
 				    arrayPointer ,
 				    arrayLength ,
-				    VariableNameAndType.FromNative,
+				    (_native) => VariableNameAndType.FromNativeEx(this, _native),
 				    NativeMethods.BNFreeVariableNameAndTypeList
 			    );
+		    }
+	    }
+
+	    public string[] VariableNames
+	    {
+		    get
+		    {
+			    List<string> items = new List<string>();
+
+			    foreach (VariableNameAndType item in this.Variables)
+			    {
+				    if (!items.Contains(item.Name))
+				    {
+					    items.Add(item.Name);
+				    }
+			    }
+			    
+			    return items.ToArray();
 		    }
 	    }
 
@@ -1167,11 +1287,131 @@ namespace BinaryNinja
 
 	    public BasicBlock? GetBasicBlockAtAddress(ulong address , Architecture? arch = null)
 	    {
+		    if (null == arch)
+		    {
+			    arch = this.Architecture;
+		    }
+		    
 		    return BasicBlock.TakeHandle(
 			    NativeMethods.BNGetFunctionBasicBlockAtAddress(
 				    this.handle, 
 				    null == arch ? IntPtr.Zero : arch.DangerousGetHandle(),
 				    address)
+		    );
+	    }
+
+	    public HighlightColor GetInstructionHighlight(ulong address , Architecture? arch = null)
+	    {
+		    return HighlightColor.FromNative(
+			    NativeMethods.BNGetInstructionHighlight(
+				    this.handle ,
+				    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+				    address
+			    )
+		    );
+	    }
+
+	    public void SetAutoInstructionHighlight(ulong address , HighlightColor color , Architecture? arch = null)
+	    {
+		    NativeMethods.BNSetAutoInstructionHighlight(
+			    this.handle ,
+			    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+			    address ,
+			    color.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserInstructionHighlight(ulong address , HighlightColor color , Architecture? arch = null)
+	    {
+		    NativeMethods.BNSetUserInstructionHighlight(
+			    this.handle ,
+			    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+			    address ,
+			    color.ToNative()
+		    );
+	    }
+	    
+	    public void CreateAutoStackVariable(
+		    long offset ,
+		    TypeWithConfidence type ,
+		    string name 
+	    )
+	    {
+		    NativeMethods.BNCreateAutoStackVariable(
+			    this.handle ,
+			    offset ,
+			    type.ToNative() ,
+			    name 
+		    );
+	    }
+	    
+	    public void CreateUserStackVariable(
+		    long offset ,
+		    TypeWithConfidence type ,
+		    string name 
+	    )
+	    {
+		    NativeMethods.BNCreateUserStackVariable(
+			    this.handle ,
+			    offset ,
+			    type.ToNative() ,
+			    name 
+		    );
+	    }
+	    
+	    public void DeleteAutoStackVariable(long offset)
+	    {
+		    NativeMethods.BNDeleteAutoStackVariable(this.handle , offset );
+	    }
+	    
+	    public void DeleteUserStackVariable(long offset)
+	    {
+		    NativeMethods.BNDeleteUserStackVariable(this.handle , offset );
+	    }
+
+	    public void CreateAutoVariable(
+		    AbstractVariable variable,
+		    TypeWithConfidence type ,
+		    string name ,
+		    bool ignoreDisjointUses = false
+	    )
+	    {
+		    NativeMethods.BNCreateAutoVariable(
+			    this.handle ,
+			    variable.ToNative() ,
+			    type.ToNative() ,
+			    name ,
+			    ignoreDisjointUses
+		    );
+	    }
+	    
+	    public void CreateUserVariable(
+		    AbstractVariable variable,
+			TypeWithConfidence type ,
+			string name ,
+			bool ignoreDisjointUses = false
+	    )
+	    {
+		    NativeMethods.BNCreateUserVariable(
+			    this.handle ,
+			    variable.ToNative() ,
+			    type.ToNative() ,
+			    name ,
+			    ignoreDisjointUses
+		    );
+	    }
+
+	    public void DeleteUserVariable(AbstractVariable variable)
+	    {
+		    NativeMethods.BNDeleteUserVariable(this.handle , variable.ToNative());
+	    }
+
+	    public bool IsCallInstruction(ulong address , Architecture? arch = null)
+	    {
+		    return NativeMethods.BNIsCallInstruction(
+			    this.handle ,
+			    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+			    address
 		    );
 	    }
 	    
@@ -1211,6 +1451,59 @@ namespace BinaryNinja
 		    }
 	    }
 
+	    public string[] CallerRawNames
+	    {
+		    get
+		    {
+			    List<string> names = new List<string>();
+			    
+			    Function[] functions = this.Callers;
+
+			    foreach (Function function in functions)
+			    {
+				    if (!names.Contains(function.RawName))
+				    {
+					    names.Add(function.RawName);
+				    }
+			    }
+			    
+			    return names.ToArray();
+		    }
+	    }
+
+	    public Function? GetCallerByRawName(string name)
+	    {
+		    Function[] functions = this.Callers;
+		    
+		    foreach (Function function in functions)
+		    {
+			    if (function.RawName == name)
+			    {
+				    return function;
+			    }
+		    }
+
+		    return null;
+	    }
+	    
+	    public Function? ChooseCaller(string prompt = "Choose" , string title = "Choose Caller")
+	    {
+		    string[] names = this.CallerRawNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetCallerByRawName(names[(int)index]);
+	    }
+
 	    public Function[] Callees
 	    {
 		    get
@@ -1231,6 +1524,59 @@ namespace BinaryNinja
 		    }
 	    }
 	    
+	    public string[] CalleeRawNames
+	    {
+		    get
+		    {
+			    List<string> names = new List<string>();
+			    
+			    Function[] functions = this.Callees;
+
+			    foreach (Function function in functions)
+			    {
+				    if (!names.Contains(function.RawName))
+				    {
+					    names.Add(function.RawName);
+				    }
+			    }
+			    
+			    return names.ToArray();
+		    }
+	    }
+	    
+	    public Function? GetCalleeByRawName(string name)
+	    {
+		    Function[] functions = this.Callees;
+		    
+		    foreach (Function function in functions)
+		    {
+			    if (function.RawName == name)
+			    {
+				    return function;
+			    }
+		    }
+
+		    return null;
+	    }
+	    
+	    public Function? ChooseCallee(string prompt = "Choose" , string title = "Choose Callee")
+	    {
+		    string[] names = this.CalleeRawNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetCalleeByRawName(names[(int)index]);
+	    }
+	    
 	    public ulong[] CalleeAddresses
 	    {
 		    get
@@ -1245,6 +1591,8 @@ namespace BinaryNinja
 			    return addresses.ToArray();
 		    }
 	    }
+	    
+	    
 
 	    public Workflow? Workflow
 	    {
@@ -1540,7 +1888,7 @@ namespace BinaryNinja
 		    return targets.ToArray();
 	    }
 	    
-	    public IEnumerable<LinearDisassemblyLine> LinearDisassemblyLines
+	    public LinearDisassemblyLine[] LinearDisassemblyLines
 	    {
 		    get
 		    {
@@ -1552,11 +1900,20 @@ namespace BinaryNinja
 	    {
 		    StringBuilder builder = new StringBuilder();
 
-		    foreach (LinearDisassemblyLine line in this.GetLinearDisassemblyLines(settings))
-		    {
-			    builder.AppendLine(line.ToString());
-		    }
+		    LinearDisassemblyLine[] lines = this.GetLinearDisassemblyLines(settings);
 
+		    for (int i = 0; i < lines.Length; i++)
+		    {
+			    if (i == ( lines.Length - 1 ))
+			    {
+				    builder.Append(lines[i].ToString());
+			    }
+			    else
+			    {
+				    builder.AppendLine(lines[i].ToString());
+			    }
+		    }
+		
 		    return builder.ToString();
 	    }
 	    
@@ -1568,8 +1925,7 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	
-	    public PluginCommand[] ValidPluginCommands
+	    public PluginCommand[] PluginCommands
 	    {
 		    get
 		    {
@@ -1586,6 +1942,37 @@ namespace BinaryNinja
 				    NativeMethods.BNFreePluginCommandList
 			    );
 		    }
+	    }
+
+	    public string[] PluginCommandNames
+	    {
+		    get
+		    {
+			    List<string> items = new List<string>();
+
+			    foreach (PluginCommand command in this.PluginCommands)
+			    {
+				    if (!items.Contains(command.Name))
+				    {
+					    items.Add(command.Name);
+				    }
+			    }
+			    
+			    return items.ToArray();
+		    }
+	    }
+
+	    public PluginCommand? GetPluginCommandByName(string name)
+	    {
+		    foreach (PluginCommand command in this.PluginCommands)
+		    {
+			    if (name == command.Name)
+			    {
+				    return  command;
+			    }
+		    }
+
+		    return null;
 	    }
 
 	    public string GetVariableNameOrDefault(CoreVariable variable)
@@ -1633,6 +2020,41 @@ namespace BinaryNinja
 			    return this.GetTypeTokens();
 		    }
 	    }
+		
+	    public VariableNameAndType? ChooseVariable(string prompt = "Choose" , string title = "Choose a variable")
+	    {
+		    string[] names = this.VariableNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
 
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetVariableByName(names[(int)index]);
+	    }
+	    
+	    public PluginCommand? ChoosePluginCommand(string prompt = "Choose" , string title = "Choose a plugin command")
+	    {
+		    string[] names = this.PluginCommandNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetPluginCommandByName(names[(int)index]);
+	    }
 	}
 }

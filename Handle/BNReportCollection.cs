@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class ReportCollection : AbstractSafeHandle<ReportCollection>
+	public sealed class ReportCollection : AbstractSafeHandle
 	{
 		public ReportCollection() 
 			: this( NativeMethods.BNCreateReportCollection() , true)

@@ -1,10 +1,10 @@
 namespace BinaryNinja
 {
-	public sealed class LowLevelILFlag : ILFlag
+	public sealed class LowLevelILFlag : Flag
 	{
 		public LowLevelILFunction ILFunction { get; }
 		
-		public LowLevelILFlag(LowLevelILFunction function , ILFlag flag)
+		public LowLevelILFlag(LowLevelILFunction function , Flag flag)
 			: base(flag)
 		{
 			this.ILFunction = function;

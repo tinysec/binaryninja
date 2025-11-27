@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class LanguageRepresentationFunctionType : AbstractSafeHandle<LanguageRepresentationFunctionType>
+	public sealed class LanguageRepresentationFunctionType : AbstractSafeHandle
 	{
 		internal LanguageRepresentationFunctionType(IntPtr handle)
 			:base(handle, false)

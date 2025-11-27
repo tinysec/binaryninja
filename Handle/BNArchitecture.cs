@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Architecture : AbstractSafeHandle<Architecture>
+	public sealed class Architecture : AbstractSafeHandle
 	{
 		internal Architecture(IntPtr handle)
 			:base(handle, false)
@@ -52,6 +52,41 @@ namespace BinaryNinja
 				Architecture.MustFromHandle ,
 				NativeMethods.BNFreeArchitectureList
 			);
+		}
+		
+		public static string[] GetAllArchitectureNames()
+		{
+			List<string> items = new List<string>();
+
+			Architecture[] architectures = Architecture.GetAllArchitectures();
+
+			foreach (Architecture architecture in architectures)
+			{
+				if (!items.Contains(architecture.Name))
+				{
+					items.Add(architecture.Name);
+				}
+			}
+		    
+			return items.ToArray();
+		}
+		
+		public static Architecture? ChooseArchitecture(string prompt = "Choose" , string title = "Choose a architecture")
+		{
+			string[] names = Architecture.GetAllArchitectureNames();
+		    
+			int? index = Core.GetLargeChoiceInput(
+				prompt ,
+				title ,
+				names
+			);
+
+			if (null == index)
+			{
+				return null;
+			}
+		    
+			return Architecture.FromName(names[(int)index]);
 		}
 	  
 		public static Architecture NativeTypeParserArchitecture()
@@ -124,7 +159,7 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	    public ILRegister[] FullWidthRegisters
+	    public Register[] FullWidthRegisters
 	    {
 		    get
 		    {
@@ -139,18 +174,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILRegister[] Registers
+	    public Register[] Registers
 	    {
 		    get
 		    {
@@ -165,18 +200,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILRegister[] GlobalRegister
+	    public Register[] GlobalRegister
 	    {
 		    get
 		    {
@@ -191,18 +226,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILRegister[] SystemRegister
+	    public Register[] SystemRegister
 	    {
 		    get
 		    {
@@ -217,18 +252,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILFlag[] Flags
+	    public Flag[] Flags
 	    {
 		    get
 		    {
@@ -243,11 +278,11 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILFlag> targets = new List<ILFlag>();
+			    List<Flag> targets = new List<Flag>();
 
 			    foreach (FlagIndex index in indexes)
 			    {
-				    targets.Add( new ILFlag(this , index) );
+				    targets.Add( new Flag(this , index) );
 			    }
 
 			    return targets.ToArray();
@@ -486,41 +521,41 @@ namespace BinaryNinja
 		    );
 	    }
 	    
-	 
-	    
-
-	    public bool GetInstructionInfo(
+	    public InstructionInfo? GetInstructionInfo(
 		    byte[] data ,
-		    ulong address ,
-		    ulong maxLength ,
-		    out InstructionInfo info
+		    ulong address 
 	    )
 	    {
 		    bool ok = false;
-
-		    BNInstructionInfo raw;
-
+		    
 		    ok = NativeMethods.BNGetInstructionInfo(
 			    this.handle ,
 			    data ,
 			    address ,
-			    maxLength ,
-			    out raw
+			     Math.Min(this.MaxInstructionLength , (ulong)data.Length) ,
+			    out BNInstructionInfo raw
 		    );
 
-		    if (ok)
+		    if (!ok)
 		    {
-			    info = InstructionInfo.FromNative(raw);
-		    }
-		    else
-		    {
-			    info = new InstructionInfo();
+			    return null;
 		    }
 		    
-		    return ok;
+		    return InstructionInfo.FromNative(raw);
 	    }
 	    
-	    public InstructionTextToken[] GetInstructionText(byte[]data , ulong address , ref ulong length )
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="data"></param>
+	    /// <param name="address"></param>
+	    /// <param name="length">instruction length in bytes</param>
+	    /// <returns></returns>
+	    public InstructionTextToken[] GetInstructionText(
+		    byte[]data , 
+		    ulong address , 
+		    out ulong length  
+		)
 	    {
 		    IntPtr arrayPointer = IntPtr.Zero;
 
@@ -528,27 +563,33 @@ namespace BinaryNinja
 
 		    bool ok = false;
 
-		    length = (ulong)data.Length;
+		    ulong bufferLength = (ulong)data.Length;
 
 		    ok = NativeMethods.BNGetInstructionText(
 			    this.handle ,
 			    data ,
 			    address ,
-			    ref length ,
+			    ref bufferLength ,
 			    out arrayPointer ,
 			    out arrayLength 
 		    );
-
+		   
 		    InstructionTextToken[] tokens = Array.Empty<InstructionTextToken>();
 		
 		    if (ok )
 		    {
+			    length = bufferLength;
+			    
 			    tokens = UnsafeUtils.TakeStructArrayEx<BNInstructionTextToken ,InstructionTextToken>(
 				    arrayPointer ,
 				    arrayLength,
 				    InstructionTextToken.FromNative,
 				    NativeMethods.BNFreeInstructionText
 			    );
+		    }
+		    else
+		    {
+			    length = 0;
 		    }
 
 		    return tokens;
@@ -568,9 +609,9 @@ namespace BinaryNinja
 		    );
 	    }
 	    
-	    public ILRegister GetRegisterByName(string name)
+	    public Register GetRegisterByName(string name)
 	    {
-		    return new ILRegister(
+		    return new Register(
 			    this ,
 			    NativeMethods.BNGetArchitectureRegisterByName(this.handle , name)
 		    );
@@ -879,11 +920,11 @@ namespace BinaryNinja
 		    NativeMethods.BNFinalizeArchitectureHook(this.handle);
 	    }
 
-	    public ILRegister StackPointerRegister
+	    public Register StackPointerRegister
 	    {
 		    get
 		    {
-			    return new ILRegister(
+			    return new Register(
 				    this ,
 				    (RegisterIndex)NativeMethods.BNGetArchitectureStackPointerRegister(this.handle)
 			    );

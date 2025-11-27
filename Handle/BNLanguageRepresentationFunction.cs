@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class LanguageRepresentationFunction : AbstractSafeHandle<LanguageRepresentationFunction>
+	public sealed class LanguageRepresentationFunction : AbstractSafeHandle
 	{
 	    internal LanguageRepresentationFunction(IntPtr handle , bool owner) 
 		    : base(handle , owner)
@@ -278,7 +278,7 @@ namespace BinaryNinja
 			             settings ,
 			             language
 			             )
-		             )
+		    )
 		    {
 			    builder.AppendLine(line.ToString());
 		    }
@@ -293,8 +293,5 @@ namespace BinaryNinja
 			    return this.GetLinearDisassemblyText();
 		    }
 	    }
-	    
-	    
-
 	}
 }

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class FileMetadata : AbstractSafeHandle<FileMetadata>
+	public sealed class FileMetadata : AbstractSafeHandle
 	{
 		public FileMetadata()
 			: this(NativeMethods.BNCreateFileMetadata() , true)

@@ -13,7 +13,6 @@ namespace BinaryNinja
 		[DllImport(
             "binaryninjacore", 
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
-            CharSet = CharSet.Ansi,
             EntryPoint = "BNGetVariableType"
         )]
 		internal static extern BNTypeWithConfidence BNGetVariableType(
@@ -22,8 +21,7 @@ namespace BinaryNinja
 		    IntPtr func  , 
 			
 			// BNVariable* _var
-		    IntPtr _var  
-			
+		    in BNVariable _var  
 		);
 	}
 }

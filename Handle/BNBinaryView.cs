@@ -9,7 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class BinaryView : AbstractSafeHandle<BinaryView>
+	public sealed class BinaryView : AbstractSafeHandle
 	{
 		internal BinaryView(IntPtr handle , bool owner) 
 			: base(handle , owner)
@@ -559,7 +559,7 @@ namespace BinaryNinja
 				}
 			}
 		}
-		
+
 		public IEnumerable<LowLevelILFunction> LowLevelILFunctions
 		{
 			get
@@ -2864,7 +2864,10 @@ namespace BinaryNinja
 
 				foreach (Symbol symbol in this.Symbols)
 				{
-					items.Add(symbol.RawName);
+					if (!items.Contains(symbol.RawName))
+					{
+						items.Add(symbol.RawName);
+					}
 				}
 
 				return items.ToArray();
@@ -2879,7 +2882,10 @@ namespace BinaryNinja
 
 				foreach (Symbol symbol in this.Symbols)
 				{
-					items.Add(symbol.FullName);
+					if (!items.Contains(symbol.FullName))
+					{
+						items.Add(symbol.FullName);
+					}
 				}
 
 				return items.ToArray();
@@ -5743,10 +5749,12 @@ namespace BinaryNinja
 
 	    public Symbol? ChooseSymbol(string prompt = "Choose" , string title = "Choose a symbol")
 	    {
+		    string[] names = this.SymbolNames;
+		    
 		    int? index = Core.GetLargeChoiceInput(
 			    prompt ,
 			    title ,
-			    this.SymbolNames
+			    names
 		    );
 
 		    if (null == index)
@@ -5754,15 +5762,17 @@ namespace BinaryNinja
 			    return null;
 		    }
 		    
-		    return this.GetSymbolByRawName(this.SymbolNames[(int)index]);
+		    return this.GetSymbolByRawName(names[(int)index]);
 	    }
 	    
 	    public Function? ChooseFunction(string prompt = "Choose" , string title = "Choose a function")
 	    {
+		    string[] names = this.SymbolNames;
+		    
 		    int? index = Core.GetLargeChoiceInput(
 			    prompt ,
 			    title ,
-			    this.SymbolNames
+			    names
 		    );
 
 		    if (null == index)
@@ -5770,7 +5780,7 @@ namespace BinaryNinja
 			    return null;
 		    }
 		    
-		    return this.GetFunctionByRawName(this.SymbolNames[(int)index]);
+		    return this.GetFunctionByRawName(names[(int)index]);
 	    }
 	}
 	

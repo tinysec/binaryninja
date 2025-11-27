@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class FirmwareNinjaReferenceNode : AbstractSafeHandle<FirmwareNinjaReferenceNode>
+	public sealed class FirmwareNinjaReferenceNode : AbstractSafeHandle
 	{
 	    internal FirmwareNinjaReferenceNode(IntPtr handle , bool owner) 
 		    : base(handle , owner)

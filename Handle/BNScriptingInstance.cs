@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class ScriptingInstance : AbstractSafeHandle<ScriptingInstance>
+	public sealed class ScriptingInstance : AbstractSafeHandle
 	{
 	    public ScriptingInstance(IntPtr handle , bool owner) 
 		    : base(handle , owner)

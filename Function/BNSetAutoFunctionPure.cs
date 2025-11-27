@@ -13,7 +13,6 @@ namespace BinaryNinja
 		[DllImport(
             "binaryninjacore", 
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
-            CharSet = CharSet.Ansi,
             EntryPoint = "BNSetAutoFunctionPure"
         )]
 		internal static extern void BNSetAutoFunctionPure(
@@ -22,8 +21,7 @@ namespace BinaryNinja
 		    IntPtr func  , 
 			
 			// BNBoolWithConfidence* pure
-		    IntPtr pure  
-			
+		    in BNBoolWithConfidence pure  
 		);
 	}
 }

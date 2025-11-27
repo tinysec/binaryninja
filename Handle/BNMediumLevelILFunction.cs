@@ -9,7 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class MediumLevelILFunction : AbstractSafeHandle<MediumLevelILFunction>
+	public sealed class MediumLevelILFunction : AbstractSafeHandle
 	{
 		public bool IsSSAForm { get; } = false;
 		
@@ -537,13 +537,20 @@ namespace BinaryNinja
 			    out ulong arrayLength
 			);
 		    
-		    MediumLevelILInstructionIndex[] indexs = UnsafeUtils.TakeNumberArray<MediumLevelILInstructionIndex>(
+		    ulong[] indexes = UnsafeUtils.TakeNumberArray<ulong>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
 
-		    return this.MustGetInstructions(indexs);
+		    List<MediumLevelILInstruction> instructions = new List<MediumLevelILInstruction>();
+
+		    foreach (MediumLevelILInstructionIndex index in indexes)
+		    {
+			    instructions.Add( this.MustGetInstruction(index) );
+		    }
+
+		    return instructions.ToArray();
 	    }
 	    
 	    public MediumLevelILInstruction[] GetSSAMemoryUses( ulong version)
@@ -554,13 +561,20 @@ namespace BinaryNinja
 			    out ulong arrayLength
 		    );
 
-		    MediumLevelILInstructionIndex[] indexs = UnsafeUtils.TakeNumberArray<MediumLevelILInstructionIndex>(
+		    ulong[] indexes = UnsafeUtils.TakeNumberArray<ulong>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
 		    
-		    return this.MustGetInstructions(indexs);
+		    List<MediumLevelILInstruction> instructions = new List<MediumLevelILInstruction>();
+
+		    foreach (MediumLevelILInstructionIndex index in indexes)
+		    {
+			    instructions.Add( this.MustGetInstruction(index) );
+		    }
+
+		    return instructions.ToArray();
 	    }
 	    
 	    public bool IsSSAVariableLive(Variable variable , ulong version)
@@ -599,13 +613,20 @@ namespace BinaryNinja
 			    out ulong arrayLength
 		    );
 
-		    MediumLevelILInstructionIndex[] indexs = UnsafeUtils.TakeNumberArray<MediumLevelILInstructionIndex>(
+		    ulong[] indexes = UnsafeUtils.TakeNumberArray<ulong>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
 		    
-		    return this.MustGetInstructions(indexs);
+		    List<MediumLevelILInstruction> instructions = new List<MediumLevelILInstruction>();
+
+		    foreach (MediumLevelILInstructionIndex index in indexes)
+		    {
+			    instructions.Add( this.MustGetInstruction(index) );
+		    }
+
+		    return instructions.ToArray();
 	    }
 	    
 	    public MediumLevelILInstruction[] GetVariableUses(Variable variable )
@@ -616,13 +637,20 @@ namespace BinaryNinja
 			    out ulong arrayLength
 		    );
 
-		    MediumLevelILInstructionIndex[] indexs = UnsafeUtils.TakeNumberArray<MediumLevelILInstructionIndex>(
+		    ulong[] indexes = UnsafeUtils.TakeNumberArray<ulong>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
 		    
-		    return this.MustGetInstructions(indexs);
+		    List<MediumLevelILInstruction> instructions = new List<MediumLevelILInstruction>();
+
+		    foreach (MediumLevelILInstructionIndex index in indexes)
+		    {
+			    instructions.Add( this.MustGetInstruction(index) );
+		    }
+
+		    return instructions.ToArray();
 	    }
 	    
 	    public MediumLevelILInstruction[] GetLiveInstructionsForVariable(
@@ -637,13 +665,20 @@ namespace BinaryNinja
 			    out ulong arrayLength
 		    );
 
-		    MediumLevelILInstructionIndex[] indexs = UnsafeUtils.TakeNumberArray<MediumLevelILInstructionIndex>(
+		    MediumLevelILInstructionIndex[] indexes = UnsafeUtils.TakeNumberArray<MediumLevelILInstructionIndex>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
 		    
-		    return this.MustGetInstructions(indexs);
+		    List<MediumLevelILInstruction> instructions = new List<MediumLevelILInstruction>();
+
+		    foreach (MediumLevelILInstructionIndex index in indexes)
+		    {
+			    instructions.Add( this.MustGetInstruction(index) );
+		    }
+
+		    return instructions.ToArray();
 	    }
 	    
 	    public RegisterValue GetSSAVariableValue(Variable variable ,  ulong version)

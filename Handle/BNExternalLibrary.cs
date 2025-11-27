@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class ExternalLibrary : AbstractSafeHandle<ExternalLibrary>
+	public sealed class ExternalLibrary : AbstractSafeHandle
 	{
 	    internal ExternalLibrary(IntPtr handle , bool owner) 
 		    : base(handle , owner)

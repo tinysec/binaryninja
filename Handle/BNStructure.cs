@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Structure : AbstractSafeHandle<Structure>
+	public sealed class Structure : AbstractSafeHandle
 	{
 		public Structure(StructureType type) 
 			: base( NativeMethods.BNGetTypeStructure(type.DangerousGetHandle()) , true)

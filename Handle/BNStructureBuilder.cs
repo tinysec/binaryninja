@@ -7,7 +7,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class StructureBuilder : AbstractSafeHandle<StructureBuilder> 
+	public sealed class StructureBuilder : AbstractSafeHandle
 	{
 		public StructureBuilder(
 			StructureVariant kind = StructureVariant.StructStructureType

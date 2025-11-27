@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class AnalysisMergeConflict : AbstractSafeHandle<AnalysisMergeConflict>
+	public sealed class AnalysisMergeConflict : AbstractSafeHandle
 	{
 	    internal AnalysisMergeConflict(IntPtr handle , bool owner)
 		    : base(handle , owner)

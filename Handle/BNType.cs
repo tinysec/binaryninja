@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public class Type: AbstractSafeHandle<Type>
+	public class Type: AbstractSafeHandle
 	{
 	    internal Type(IntPtr handle , bool owner) 
 		    : base(handle , owner)

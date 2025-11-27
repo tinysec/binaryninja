@@ -7,8 +7,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public abstract class AbstractFlowGraph<T_SELF> : AbstractSafeHandle<T_SELF>
-		where T_SELF: AbstractFlowGraph<T_SELF>
+	public abstract class AbstractFlowGraph : AbstractSafeHandle
 	{
 		internal AbstractFlowGraph(IntPtr handle , bool owner) 
 			: base(handle , owner)
@@ -445,7 +444,7 @@ namespace BinaryNinja
 	}
 	
 	// x
-	public sealed class FlowGraph : AbstractFlowGraph<FlowGraph>
+	public sealed class FlowGraph : AbstractFlowGraph
 	{
 		public FlowGraph()
 			:this( NativeMethods.BNCreateFlowGraph() , true)

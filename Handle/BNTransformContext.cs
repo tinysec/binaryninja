@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class TransformContext : AbstractSafeHandle<TransformContext>
+	public sealed class TransformContext : AbstractSafeHandle
 	{
 	    internal TransformContext(IntPtr handle , bool owner) 
 		    : base(handle , owner)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class DisassemblySettings : AbstractSafeHandle<DisassemblySettings>
+	public sealed class DisassemblySettings : AbstractSafeHandle
 	{
 		public DisassemblySettings() 
 			: this( NativeMethods.BNDefaultDisassemblySettings() , true)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class TypeArchiveMergeConflict : AbstractSafeHandle<TypeArchiveMergeConflict>
+	public sealed class TypeArchiveMergeConflict : AbstractSafeHandle
 	{
 	    internal TypeArchiveMergeConflict(IntPtr handle , bool owner) 
 		    : base(handle , owner)

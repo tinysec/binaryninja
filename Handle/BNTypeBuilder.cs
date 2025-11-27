@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public class TypeBuilder : AbstractSafeHandle<TypeBuilder>
+	public class TypeBuilder : AbstractSafeHandle
 	{
 		internal TypeBuilder(IntPtr handle , bool owner) 
 			: base(handle , owner)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class DataRenderer :  AbstractSafeHandle<DataRenderer>
+	public sealed class DataRenderer :  AbstractSafeHandle
 	{
 	    public DataRenderer(IntPtr handle , bool owner) 
 		    : base(handle , owner)

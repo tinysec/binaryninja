@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class AnalysisCompletionEvent : AbstractSafeHandle<AnalysisCompletionEvent>
+	public sealed class AnalysisCompletionEvent : AbstractSafeHandle
 	{
 	    internal AnalysisCompletionEvent(IntPtr handle , bool owner) 
 		    : base(handle , owner)

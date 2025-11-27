@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class LinearViewCursor : AbstractSafeHandle<LinearViewCursor>
+	public sealed class LinearViewCursor : AbstractSafeHandle
 	{
 		public LinearViewCursor(LinearViewObject root) 
 			: this( 

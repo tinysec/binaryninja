@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class WebsocketClient : AbstractSafeHandle<WebsocketClient>
+	public sealed class WebsocketClient : AbstractSafeHandle
 	{
 	    internal WebsocketClient(IntPtr handle , bool owner)
 		    : base(handle , owner)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Platform :  AbstractSafeHandle<Platform>
+	public sealed class Platform :  AbstractSafeHandle
 	{
 		public Platform(Architecture arch , string name)
 			:this( NativeMethods.BNCreatePlatform(arch.DangerousGetHandle() , name) , true)
@@ -96,7 +96,7 @@ namespace BinaryNinja
 	        return true;
 	    }
 		
-	    public static Platform[] GetPlatforms()
+	    public static Platform[] GetAllPlatforms()
 	    {
 		    IntPtr arrayPointer = NativeMethods.BNGetPlatformList(out ulong arrayLength);
 
@@ -108,6 +108,41 @@ namespace BinaryNinja
 		    );
 	    }
 
+	    public static string[] GetAllPlatformNames()
+	    {
+		    List<string> items = new List<string>();
+
+		    Platform[] platforms = Platform.GetAllPlatforms();
+
+		    foreach (Platform platform in platforms)
+		    {
+			    if (!items.Contains(platform.Name))
+			    {
+				    items.Add(platform.Name);
+			    }
+		    }
+		    
+		    return items.ToArray();
+	    }
+		
+	    public static Platform? ChoosePlatform(string prompt = "Choose" , string title = "Choose a platform")
+	    {
+		    string[] names = Platform.GetAllPlatformNames();
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return Platform.FromName(names[(int)index]);
+	    }
+	    
 	    public static Platform? FromName(string name)
 	    {
 		    return Platform.TakeHandle(

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace BinaryNinja
 {
-	public sealed class MediumLevelILVariable : AbstractFunctionVariable<MediumLevelILVariable>
+	public sealed class MediumLevelILVariable : AbstractFunctionVariable
 	{
 		public MediumLevelILFunction ILFunction { get; }
 
 		internal MediumLevelILVariable(MediumLevelILVariable other) 
 			: base(
 				other.ILFunction.OwnerFunction,
-				other.Type,
+				other.Source,
 				other.Index,
 				other.Storage
 		)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class ScriptingProvider : AbstractSafeHandle<ScriptingInstance>
+	public sealed class ScriptingProvider : AbstractSafeHandle
 	{
 		internal ScriptingProvider(IntPtr handle)
 			:base(handle , false)

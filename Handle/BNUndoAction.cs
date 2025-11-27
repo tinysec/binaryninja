@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class UndoAction : AbstractSafeHandle<UndoAction>
+	public sealed class UndoAction : AbstractSafeHandle
 	{
 	    internal UndoAction(IntPtr handle , bool owner) 
 		    : base(handle , owner)

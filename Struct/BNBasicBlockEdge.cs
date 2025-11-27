@@ -31,10 +31,9 @@ namespace BinaryNinja
 	}
 	
 	
-	public abstract class AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK> 
-		 : IEquatable<T_SELF>, IComparable< T_SELF>
-		where T_SELF : AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK>
-		where T_BASICBLOCK : AbstractBasicBlock<T_BASICBLOCK>
+	public abstract class AbstractBasicBlockEdge<T_BASICBLOCK> 
+		 : IEquatable< AbstractBasicBlockEdge<T_BASICBLOCK> >, IComparable< AbstractBasicBlockEdge<T_BASICBLOCK>  >
+		where T_BASICBLOCK : AbstractBasicBlock
     {
 	    public BranchType Type {get;} = BranchType.UnconditionalBranch;
 		
@@ -68,10 +67,10 @@ namespace BinaryNinja
 
 	    public override bool Equals(object? other)
 	    {
-		    return Equals(other as T_SELF);
+		    return Equals(other as AbstractBasicBlockEdge<T_BASICBLOCK>);
 	    }
 
-	    public bool Equals(T_SELF? other)
+	    public bool Equals(AbstractBasicBlockEdge<T_BASICBLOCK>? other)
 	    {
 		    if (other is null)
 		    {
@@ -108,8 +107,8 @@ namespace BinaryNinja
 	    }
 
 	    public static bool operator ==(
-		    AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK>? left,
-		    AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK>? right)
+		    AbstractBasicBlockEdge<T_BASICBLOCK>? left,
+		    AbstractBasicBlockEdge<T_BASICBLOCK>? right)
 	    {
 		    if (left is null)
 		    {
@@ -120,13 +119,13 @@ namespace BinaryNinja
 	    }
 
 	    public static bool operator !=(
-		    AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK>? left, 
-		    AbstractBasicBlockEdge<T_SELF,T_BASICBLOCK>? right)
+		    AbstractBasicBlockEdge<T_BASICBLOCK>? left, 
+		    AbstractBasicBlockEdge<T_BASICBLOCK>? right)
 	    {
 		    return !(left == right);
 	    }
 
-	    public int CompareTo(T_SELF? other)
+	    public int CompareTo(AbstractBasicBlockEdge<T_BASICBLOCK>? other)
 	    {
 		    if (other is null)
 		    {
@@ -159,7 +158,7 @@ namespace BinaryNinja
 	    }
     }
 	
-    public sealed class BasicBlockEdge : AbstractBasicBlockEdge<BasicBlockEdge,BasicBlock>
+    public sealed class BasicBlockEdge : AbstractBasicBlockEdge<BasicBlock>
     {
 	    internal BasicBlockEdge( 
 		    BNBasicBlockEdge native ,

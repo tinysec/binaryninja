@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class NamedTypeReference : AbstractSafeHandle<NamedTypeReference>
+	public sealed class NamedTypeReference : AbstractSafeHandle
 	{
 		public NamedTypeReference(NamedTypeReferenceClass cls , string id , QualifiedName name) 
 			: this( NamedTypeReference.rawCreate(cls , id , name) , true )

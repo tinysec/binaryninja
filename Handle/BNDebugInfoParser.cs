@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class DebugInfoParser : AbstractSafeHandle<DebugInfoParser>
+	public sealed class DebugInfoParser : AbstractSafeHandle
 	{
 	    internal DebugInfoParser(IntPtr handle , bool owner) 
 		    : base(handle , owner)

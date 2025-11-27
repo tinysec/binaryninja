@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class KeyValueStore : AbstractSafeHandle<KeyValueStore>
+	public sealed class KeyValueStore : AbstractSafeHandle
 	{
 		public KeyValueStore() 
 			: this( NativeMethods.BNCreateKeyValueStore() , true )

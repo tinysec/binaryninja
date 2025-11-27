@@ -70,11 +70,11 @@ namespace BinaryNinja
 		}
 	}
 	
-	public class ILLabel : AbstractLabel<ILLabel>
+	public class Label : AbstractLabel<Label>
 	{
 		internal Function Function;
 		
-		internal ILLabel(Function function , ulong id)
+		internal Label(Function function , ulong id)
 			:base(id)
 		{
 			this.Function = function;

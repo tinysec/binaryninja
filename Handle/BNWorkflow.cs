@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public class Workflow :  AbstractSafeHandle<Workflow>
+	public class Workflow :  AbstractSafeHandle
 	{
 		public Workflow(string name) : base(true)
 		{

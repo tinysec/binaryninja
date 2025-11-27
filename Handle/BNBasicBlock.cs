@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public abstract class AbstractBasicBlock<T_SELF> : AbstractSafeHandle<T_SELF>
-		where T_SELF : AbstractBasicBlock<T_SELF>
+	public abstract class AbstractBasicBlock: AbstractSafeHandle
 	{
 		internal AbstractBasicBlock(IntPtr handle , bool owner) 
 			: base(handle , owner)
@@ -27,6 +27,7 @@ namespace BinaryNinja
 	        
 	        return true;
 	    }
+	    
 
 	    public Function? Function
 	    {
@@ -370,65 +371,10 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	    public DisassemblyTextLine[] GetLanguageRepresentationLines(
-		    DisassemblySettings? settings = null,
-		    string language = "Pseudo C"
-	    )
-	    {
-		    Function? function = this.Function;
-
-		    if (null == function)
-		    {
-			    return Array.Empty<DisassemblyTextLine>();
-		    }
-		    
-		    LanguageRepresentationFunction? pseudo = function.GetLanguageRepresentation(language);
-
-		    if (null == pseudo)
-		    {
-			    return Array.Empty<DisassemblyTextLine>();
-		    }
-		    
-		    IntPtr arrayPointer = NativeMethods.BNGetLanguageRepresentationFunctionBlockLines(
-			    pseudo.DangerousGetHandle() ,
-			    this.DangerousGetHandle() ,
-			    null == settings ? IntPtr.Zero :  settings.DangerousGetHandle() ,
-			    out ulong arrayLength
-		    );
-
-		    return UnsafeUtils.TakeStructArrayEx<BNDisassemblyTextLine , DisassemblyTextLine>(
-			    arrayPointer ,
-			    arrayLength ,
-			    DisassemblyTextLine.FromNative ,
-			    NativeMethods.BNFreeDisassemblyTextLines
-		    );
-	    }
-	    
-	    public DisassemblyTextLine[] PseudoCLines
-	    {
-		    get
-		    {
-			    return this.GetLanguageRepresentationLines();
-		    }
-	    }
-	    
-	    public string PseudoCText
-	    {
-		    get
-		    {
-			    StringBuilder builder = new  StringBuilder();
-
-			    foreach (DisassemblyTextLine line in this.PseudoCLines)
-			    {
-				    builder.AppendLine(line.ToString());
-			    }
-			    
-			    return builder.ToString();
-		    }
-	    }
+	   
 	}
 	
-	public class BasicBlock : AbstractBasicBlock<BasicBlock>
+	public class BasicBlock : AbstractBasicBlock
 	{
 		internal BasicBlock(IntPtr handle , bool owner) 
 			: base(handle , owner)
@@ -680,7 +626,6 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	    
 	    public BasicBlock[] GetDominanceFrontier(bool post)
 	    {
 		    ulong arrayLength = 0;
@@ -714,47 +659,65 @@ namespace BinaryNinja
 			    return this.GetDominanceFrontier(true);
 		    }
 	    }
-
-	    public IEnumerable<InstructionTextLine> InstructionTextLines
+	   
+	    public IEnumerable<Instruction> Instructions
 	    {
 		    get
 		    {
-			    return this.GetInstructionTextLines();
-		    }
-	    }
-
-	    public IEnumerable<InstructionTextLine> GetInstructionTextLines()
-	    {
-		    if (null == this.View)
-		    {
-			    throw new Exception("View is null");
-		    }
-		   
-		    ulong address = this.Start;
-
-		    while (address < this.End)
-		    {
-			    ulong length = this.End - address;
-			    
-			    length = Math.Min(this.Architecture.MaxInstructionLength, this.Length - address);
-
-			    byte[] data = this.View.ReadData(address , length);
-
-			    InstructionTextToken[] tokens = this.Architecture.GetInstructionText(
-				    data , 
-				    address ,
-				    ref length
-				);
-
-			    if (0 == length)
+			    if (null == this.View)
 			    {
-				    break;
+				    throw new Exception("View is null");
 			    }
+		   
+			    ulong address = this.Start;
 
-			    yield return new InstructionTextLine(address , data , tokens);
+			    while (address < this.End)
+			    {
+				    ulong bufferLength = this.End - address;
 			    
-			    address += length;
+				    bufferLength = Math.Min(this.Architecture.MaxInstructionLength, this.Length - address);
+
+				    byte[] buffer = this.View.ReadData(address , bufferLength);
+
+				    InstructionInfo? info = this.Architecture.GetInstructionInfo(buffer , address);
+
+				    if (null == info)
+				    {
+					    throw new Exception("get instruction info fail");
+				    }
+
+				    if (0 == info.Length)
+				    {
+					    throw new Exception("Instruction length out of range");
+				    }
+			    
+				    byte[] data = new byte[info.Length];
+				    
+				    Array.Copy(buffer, data, data.Length);
+			    
+				    InstructionTextToken[] tokens = this.Architecture.GetInstructionText(
+					    data , 
+					    address ,
+					    out ulong instrLength
+				    );
+
+				    if (instrLength != info.Length)
+				    {
+					    throw new Exception("Instruction length mismatch");
+				    }
+
+				    yield return new Instruction(
+					    this.Function,
+					    address ,
+					    data,
+					    info,
+					    tokens
+				    );
+			    
+				    address += instrLength;
+			    }
 		    }
 	    }
+
 	}
 }

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class RelocationHandler : AbstractSafeHandle<RelocationHandler>
+	public sealed class RelocationHandler : AbstractSafeHandle
 	{
 	    internal RelocationHandler(IntPtr handle , bool owner) 
 		    : base(handle , owner)

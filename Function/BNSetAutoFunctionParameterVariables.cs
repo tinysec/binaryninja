@@ -13,7 +13,6 @@ namespace BinaryNinja
 		[DllImport(
             "binaryninjacore", 
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
-            CharSet = CharSet.Ansi,
             EntryPoint = "BNSetAutoFunctionParameterVariables"
         )]
 		internal static extern void BNSetAutoFunctionParameterVariables(
@@ -22,8 +21,7 @@ namespace BinaryNinja
 		    IntPtr func  , 
 			
 			// BNParameterVariablesWithConfidence* vars
-		    IntPtr vars  
-			
+		    in BNParameterVariablesWithConfidence vars  
 		);
 	}
 }

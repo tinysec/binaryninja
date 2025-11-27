@@ -1253,8 +1253,52 @@ namespace BinaryNinja
 				return this.ILFunction.GetInstruction((HighLevelILInstructionIndex)index);
 			}
 		}
+		
+		
+		public LowLevelILInstruction[] LowLevelILExpressions
+		{
+			get
+			{
+				List<LowLevelILInstruction> lowExprs = new List<LowLevelILInstruction>();
 
-		public MediumLevelILInstruction? MediumLevelIL
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					foreach (LowLevelILInstruction lowExpr in mediumExpr.LowLevelILExpressions)
+					{
+						if (!lowExprs.Contains(lowExpr))
+						{
+							lowExprs.Add(lowExpr);
+						}
+					}
+				}
+				
+				return lowExprs.ToArray();
+			}
+		}
+		
+		public LowLevelILInstruction[] LowLevelILInstructions
+		{
+			get
+			{
+				List<LowLevelILInstruction> lowInstrs = new List<LowLevelILInstruction>();
+
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					foreach (LowLevelILInstruction lowInstr in mediumExpr.LowLevelILInstructions)
+					{
+						if (!lowInstrs.Contains(lowInstr))
+						{
+							lowInstrs.Add(lowInstr);
+						}
+					}
+				}
+				
+				return lowInstrs.ToArray();
+			}
+		}
+		
+
+		public MediumLevelILInstruction? MediumLevelILExpression
 		{
 			get
 			{
@@ -1279,13 +1323,13 @@ namespace BinaryNinja
 			}
 		}
 		
-		public MediumLevelILInstruction[] MediumLevelILs
+		public MediumLevelILInstruction[] MediumLevelILExpressions
 		{
 			get
 			{
-				MediumLevelILFunction? mediumLevelIl = this.ILFunction.MediumLevelIL;
+				MediumLevelILFunction? mediumIL = this.ILFunction.MediumLevelIL;
 
-				if (null == mediumLevelIl)
+				if (null == mediumIL)
 				{
 					return Array.Empty<MediumLevelILInstruction>();
 				}
@@ -1302,21 +1346,43 @@ namespace BinaryNinja
 					NativeMethods.BNFreeILInstructionList
 				);
 				
-				List<MediumLevelILInstruction> targets = new List<MediumLevelILInstruction>();
+				List<MediumLevelILInstruction> mediumExprs = new List<MediumLevelILInstruction>();
 
 				foreach (MediumLevelILExpressionIndex index in indexes)
 				{
-					targets.Add(mediumLevelIl.MustGetExpression(index));
+					mediumExprs.Add(mediumIL.MustGetExpression(index));
 				}
 				
-				return targets.ToArray();
+				return mediumExprs.ToArray();
+			}
+		}
+		
+		public MediumLevelILInstruction[] MediumLevelILInstructions
+		{
+			get
+			{
+				List<MediumLevelILInstruction> mediumInstrs = new List<MediumLevelILInstruction>();
+
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					MediumLevelILInstruction mediumInstr = mediumExpr.ILFunction.MustGetInstruction(
+						mediumExpr.InstructionIndex
+					);
+
+					if (!mediumInstrs.Contains(mediumInstr))
+					{
+						mediumInstrs.Add(mediumInstr);
+					}
+				}
+				
+				return mediumInstrs.ToArray();
 			}
 		}
 
 		public DisassemblyTextLine[] GetLanguageRepresentationLinearLines(
+			bool asFullAst = false,
 			DisassemblySettings? settings = null ,
-			string language = "Pseudo C",
-			bool asFullAst = false
+			string language = "Pseudo C"
 		)
 		{
 			LanguageRepresentationFunction? pseudo = this.ILFunction.GetLanguageRepresentation(language);
@@ -1357,9 +1423,16 @@ namespace BinaryNinja
 			{
 				StringBuilder builder = new StringBuilder();
 
-				foreach (DisassemblyTextLine line in this.PseudoCLinearLines)
+				for (int i = 0; i < this.PseudoCLinearLines.Length; i++)
 				{
-					builder.AppendLine(line.ToString());
+					if (i == ( this.PseudoCLinearLines.Length - 1) )
+					{
+						builder.Append(this.PseudoCLinearLines[i].ToString());
+					}
+					else
+					{
+						builder.AppendLine(this.PseudoCLinearLines[i].ToString());
+					}
 				}
 				
 				return builder.ToString();
@@ -1367,10 +1440,10 @@ namespace BinaryNinja
 		}
 		
 		public DisassemblyTextLine[] GetLanguageRepresentationExpressionLines(
-			DisassemblySettings? settings = null,
 			bool asFullAst = false,
 			OperatorPrecedence precedence = OperatorPrecedence.TopLevelOperatorPrecedence,
 			bool statement = false,
+			DisassemblySettings? settings = null,
 			string language = "Pseudo C"
 		)
 		{
@@ -1416,9 +1489,16 @@ namespace BinaryNinja
 			{
 				StringBuilder builder = new StringBuilder();
 
-				foreach (DisassemblyTextLine line in this.PseudoCExpressionLines)
+				for (int i = 0; i < this.PseudoCExpressionLines.Length; i++)
 				{
-					builder.AppendLine(line.ToString());
+					if (i == ( this.PseudoCExpressionLines.Length - 1) )
+					{
+						builder.Append(this.PseudoCExpressionLines[i].ToString());
+					}
+					else
+					{
+						builder.AppendLine(this.PseudoCExpressionLines[i].ToString());
+					}
 				}
 				
 				return builder.ToString();
@@ -1443,12 +1523,12 @@ namespace BinaryNinja
 		{
 			get
 			{
-				if (null == this.MediumLevelIL)
+				if (null == this.MediumLevelILExpression)
 				{
 					return new RegisterValue();
 				}
 				
-				return this.MediumLevelIL.Value;
+				return this.MediumLevelILExpression.Value;
 			}
 		}
 		
@@ -1456,23 +1536,23 @@ namespace BinaryNinja
 		{
 			get
 			{
-				if (null == this.MediumLevelIL)
+				if (null == this.MediumLevelILExpression)
 				{
 					return new PossibleValueSet();
 				}
 				
-				return this.MediumLevelIL.PossibleValues;
+				return this.MediumLevelILExpression.PossibleValues;
 			}
 		}
 
 		public PossibleValueSet GetPossibleValues(DataFlowQueryOption[] options)
 		{
-			if (null == this.MediumLevelIL)
+			if (null == this.MediumLevelILExpression)
 			{
 				return new PossibleValueSet();
 			}
 			
-			return this.MediumLevelIL.GetPossibleValues(options);
+			return this.MediumLevelILExpression.GetPossibleValues(options);
 		}
 		
 		public TypeWithConfidence Type
@@ -1527,7 +1607,5 @@ namespace BinaryNinja
 				);
 			}
 		}
-		
-		
     }
 }

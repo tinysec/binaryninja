@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class ExternalLocation : AbstractSafeHandle<ExternalLocation>
+	public sealed class ExternalLocation : AbstractSafeHandle
 	{
 	    internal ExternalLocation(IntPtr handle , bool owner) 
 		    : base(handle , owner)
