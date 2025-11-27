@@ -284,6 +284,33 @@ namespace BinaryNinja
 			    return NativeMethods.BNFunctionHasUserType(this.handle);
 		    }
 	    }
+
+	    public void SetAutoReturnType(TypeWithConfidence type)
+	    {
+		    NativeMethods.BNSetAutoFunctionReturnType(
+			    this.handle,
+			    type.ToNative()
+			);
+	    }
+	    
+	    public void SetAutoCallingConvention(CallingConventionWithConfidence convention)
+	    {
+		    NativeMethods.BNSetAutoFunctionCallingConvention(
+			    this.handle,
+			    convention.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoParameterVariables(ParameterVariablesWithConfidence parameterVariables)
+	    {
+		    using (ScopedAllocator allocator = new ScopedAllocator())
+		    {
+			    NativeMethods.BNSetAutoFunctionParameterVariables(
+				    this.handle,
+				    parameterVariables.ToNativeEx(allocator)
+			    );
+		    }
+	    }
 	    
 	    public bool HasExplicitlyDefinedType
 	    {
