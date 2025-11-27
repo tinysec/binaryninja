@@ -1671,6 +1671,57 @@ namespace BinaryNinja
 		    );
 	    }
 	    
+	    public static string[] GetAllPluginCommandNames()
+	    {
+		    List<string> items = new List<string>();
+
+		    PluginCommand[] commands = PluginCommand.GetAllPluginCommands();
+
+		    foreach (PluginCommand command in commands)
+		    {
+			    if (!items.Contains(command.Name))
+			    {
+				    items.Add(command.Name);
+			    }
+		    }
+		    
+		    return items.ToArray();
+	    }
+	    
+	    
+	    public static PluginCommand? GetPluginCommandByName(string name)
+	    {
+		    PluginCommand[] commands = PluginCommand.GetAllPluginCommands();
+		    
+		    foreach (PluginCommand command in commands)
+		    {
+			    if (name == command.Name)
+			    {
+				    return command;
+			    }
+		    }
+
+		    return null;
+	    }
+	    
+	    public static PluginCommand? ChoosePluginCommand(string prompt = "Choose" , string title = "Choose a plugin command")
+	    {
+		    string[] names = PluginCommand.GetAllPluginCommandNames();
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return PluginCommand.GetPluginCommandByName(names[(int)index]);
+	    }
+	    
 	    public static PluginCommand[] GetValidPluginCommands(BinaryView view)
 	    {
 		    IntPtr arrayPointer = NativeMethods.BNGetValidPluginCommands(

@@ -1619,7 +1619,7 @@ namespace BinaryNinja
 		    }
 	    }
 
-	    public string[] PluginCommandsNames
+	    public string[] PluginCommandNames
 	    {
 		    get
 		    {
@@ -1716,7 +1716,7 @@ namespace BinaryNinja
 	    
 	    public PluginCommand? ChoosePluginCommand(string prompt = "Choose" , string title = "Choose a plugin command")
 	    {
-		    string[] names = this.PluginCommandsNames;
+		    string[] names = this.PluginCommandNames;
 		    
 		    int? index = Core.GetLargeChoiceInput(
 			    prompt ,
