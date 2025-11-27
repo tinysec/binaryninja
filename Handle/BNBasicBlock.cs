@@ -751,10 +751,10 @@ namespace BinaryNinja
 				    break;
 			    }
 
-			    yield return new InstructionTextLine(tokens);
+			    yield return new InstructionTextLine(address , data , tokens);
+			    
 			    address += length;
 		    }
-		    
 	    }
 	}
 }
