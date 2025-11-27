@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
 
@@ -120,14 +121,74 @@ namespace BinaryNinja
 		{
 			get
 			{
-				if (this.Function == null)
+				if (null == this.Function)
 				{
-					return Array.Empty<LowLevelILInstruction>();;
+					return Array.Empty<LowLevelILInstruction>();
 				}
 				
 				return this.Function.LowLevelIL.GetInstructionsAt(
 					this.Address
 				);
+			}
+		}
+		
+		public MediumLevelILInstruction[] MediumLevelILExpressions
+		{
+			get
+			{
+				if (null == this.Function)
+				{
+					return Array.Empty<MediumLevelILInstruction>();
+				}
+
+				List<MediumLevelILInstruction> targets = new List<MediumLevelILInstruction>();
+				
+				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
+				{
+					MediumLevelILInstruction[] mediumExprs = this.Function.LowLevelIL.GetMediumLevelILExpressions(
+						lowInstr.ExpressionIndex
+					);
+
+					foreach (MediumLevelILInstruction mediumExpr in mediumExprs)
+					{
+						if (!targets.Contains(mediumExpr))
+						{
+							targets.Add(mediumExpr);
+						}
+					}
+				}
+
+				return targets.ToArray();
+			}
+		}
+		
+		public HighLevelILInstruction[] HighLevelILExpressions
+		{
+			get
+			{
+				if (null == this.Function)
+				{
+					return Array.Empty<HighLevelILInstruction>();
+				}
+
+				List<HighLevelILInstruction> targets = new List<HighLevelILInstruction>();
+				
+				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
+				{
+					HighLevelILInstruction[] highExprs = this.Function.LowLevelIL.GetHighLevelILExpressions(
+						lowInstr.ExpressionIndex
+					);
+
+					foreach (HighLevelILInstruction highExpr in highExprs)
+					{
+						if (!targets.Contains(highExpr))
+						{
+							targets.Add(highExpr);
+						}
+					}
+				}
+
+				return targets.ToArray();
 			}
 		}
 	}
