@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class HighLevelILFunction : AbstractSafeHandle<HighLevelILFunction>
+	public sealed class HighLevelILFunction : AbstractSafeHandle
 	{
 		public bool IsSSAForm { get; } = false;
 			

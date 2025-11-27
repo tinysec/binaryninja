@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class TransformSession : AbstractSafeHandle<TransformSession>
+	public sealed class TransformSession : AbstractSafeHandle
 	{
 	    internal TransformSession(IntPtr handle , bool owner) 
 		    : base(handle , owner)

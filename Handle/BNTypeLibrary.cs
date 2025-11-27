@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class TypeLibrary :  AbstractSafeHandle<TypeLibrary>
+	public sealed class TypeLibrary :  AbstractSafeHandle
 	{
 		public TypeLibrary(Architecture arch , string name) 
 			:this( NativeMethods.BNNewTypeLibrary(arch.DangerousGetHandle(), name) , true)

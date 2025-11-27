@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class TypeLibraryMapping : AbstractSafeHandle<TypeLibraryMapping>
+	public sealed class TypeLibraryMapping : AbstractSafeHandle
 	{
 		internal TypeLibraryMapping(IntPtr handle)
 			:base(handle , false)

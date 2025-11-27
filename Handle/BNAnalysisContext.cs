@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class AnalysisContext : AbstractSafeHandle<AnalysisContext>
+	public sealed class AnalysisContext : AbstractSafeHandle
 	{
 	    internal AnalysisContext(IntPtr handle , bool owner)
 		    : base(handle , owner)

@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class BinaryWriter : AbstractSafeHandle<BinaryWriter>
+	public sealed class BinaryWriter : AbstractSafeHandle
 	{
 		public BinaryWriter(BinaryView view)
 			: this(NativeMethods.BNCreateBinaryWriter(view.DangerousGetHandle()) , true)

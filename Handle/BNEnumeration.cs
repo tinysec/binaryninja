@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Enumeration : AbstractSafeHandle<Enumeration>
+	public sealed class Enumeration : AbstractSafeHandle
 	{
 		public Enumeration(EnumerationType type) 
 			: base( NativeMethods.BNGetTypeEnumeration(type.DangerousGetHandle()) , true)

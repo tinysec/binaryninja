@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class StringRef : AbstractSafeHandle<StringRef>
+	public sealed class StringRef : AbstractSafeHandle
 	{
 	    internal StringRef(IntPtr handle , bool owner) 
 		    : base(handle , owner)

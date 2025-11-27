@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class CollaborationLazyT :  AbstractSafeHandle<CollaborationLazyT>
+	public sealed class CollaborationLazyT :  AbstractSafeHandle
 	{
 	    public CollaborationLazyT(IntPtr handle)
 			:base(handle, false)

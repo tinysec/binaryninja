@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class ProjectFolder : AbstractSafeHandle<ProjectFolder>
+	public sealed class ProjectFolder : AbstractSafeHandle
 	{
 	    internal ProjectFolder(IntPtr handle , bool owner) 
 		    : base(handle , owner)

@@ -7,7 +7,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class BinaryReader : AbstractSafeHandle<Architecture>
+	public sealed class BinaryReader : AbstractSafeHandle
 	{
 		public BinaryReader(BinaryView view)
 			: this(NativeMethods.BNCreateBinaryReader(view.DangerousGetHandle()) , true)

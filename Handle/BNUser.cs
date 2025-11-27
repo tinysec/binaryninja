@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class User : AbstractSafeHandle<User>
+	public sealed class User : AbstractSafeHandle
 	{
 	    internal User(IntPtr handle , bool owner) 
 		    : base(handle , owner)

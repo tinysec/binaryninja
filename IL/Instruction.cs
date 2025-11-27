@@ -358,42 +358,4 @@ namespace BinaryNinja
 			}
 		}
 	}
-
-
-	public static class InstructionTest
-	{
-		public static void Test()
-		{
-			NativeLibrary.SetDllImportResolver(
-				typeof(BinaryNinja.Core).Assembly,
-				new LibraryResolver().ResolveDllImport
-			);
-			
-			BinaryNinja.Core.InitPlugins(true);
-
-			BinaryView? view = BinaryView.LoadFile("/data/afd.sys.bndb");
-
-			if (null == view)
-			{
-				throw new Exception("load file fail");
-			}
-
-			Function? function = view.GetFunctionByRawName("_tlgCreate1Sz_char");
-
-			if (null == function)
-			{
-				throw new Exception("not found function");
-			}
-
-			BasicBlock basicBlock = function.BasicBlocks[0];
-			
-			foreach (Instruction instruction in basicBlock.Instructions)
-			{
-				Console.WriteLine(instruction.Text);
-			}
-			
-			BinaryNinja.Core.Shutdown();
-
-		}
-	}
 }

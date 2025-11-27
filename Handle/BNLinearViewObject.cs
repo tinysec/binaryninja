@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class LinearViewObject : AbstractSafeHandle<LinearViewObject>
+	public sealed class LinearViewObject : AbstractSafeHandle
 	{
 		public LinearViewObject? Parent { get; } = null;
 		

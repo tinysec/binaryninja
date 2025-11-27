@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Architecture : AbstractSafeHandle<Architecture>
+	public sealed class Architecture : AbstractSafeHandle
 	{
 		internal Architecture(IntPtr handle)
 			:base(handle, false)

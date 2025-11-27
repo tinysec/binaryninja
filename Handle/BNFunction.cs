@@ -9,7 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Function : AbstractSafeHandle<Function>
+	public sealed class Function : AbstractSafeHandle
 	{
 	    internal Function(IntPtr handle , bool owner) 
 		    : base(handle , owner)
@@ -821,7 +821,7 @@ namespace BinaryNinja
 			    return UnsafeUtils.TakeStructArrayEx<BNVariableNameAndType , VariableNameAndType>(
 				    arrayPointer ,
 				    arrayLength ,
-				    VariableNameAndType.FromNative ,
+				    (_native) => VariableNameAndType.FromNativeEx(this, _native) ,
 				    NativeMethods.BNFreeVariableNameAndTypeList
 			    );
 		    }
@@ -839,9 +839,24 @@ namespace BinaryNinja
 			    return UnsafeUtils.TakeStructArrayEx<BNVariableNameAndType , VariableNameAndType>(
 				    arrayPointer ,
 				    arrayLength ,
-				    VariableNameAndType.FromNative,
+				    (_native) => VariableNameAndType.FromNativeEx(this, _native),
 				    NativeMethods.BNFreeVariableNameAndTypeList
 			    );
+		    }
+	    }
+
+	    public string[] VariableNames
+	    {
+		    get
+		    {
+			    List<string> items = new List<string>();
+
+			    foreach (VariableNameAndType item in this.Variables)
+			    {
+				    
+			    }
+			    
+			    return items.ToArray();
 		    }
 	    }
 
@@ -1167,6 +1182,11 @@ namespace BinaryNinja
 
 	    public BasicBlock? GetBasicBlockAtAddress(ulong address , Architecture? arch = null)
 	    {
+		    if (null == arch)
+		    {
+			    arch = this.Architecture;
+		    }
+		    
 		    return BasicBlock.TakeHandle(
 			    NativeMethods.BNGetFunctionBasicBlockAtAddress(
 				    this.handle, 
@@ -1643,5 +1663,6 @@ namespace BinaryNinja
 		    }
 	    }
 
+	    
 	}
 }

@@ -9,7 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class BinaryView : AbstractSafeHandle<BinaryView>
+	public sealed class BinaryView : AbstractSafeHandle
 	{
 		internal BinaryView(IntPtr handle , bool owner) 
 			: base(handle , owner)
@@ -559,7 +559,7 @@ namespace BinaryNinja
 				}
 			}
 		}
-		
+
 		public IEnumerable<LowLevelILFunction> LowLevelILFunctions
 		{
 			get
@@ -2864,7 +2864,10 @@ namespace BinaryNinja
 
 				foreach (Symbol symbol in this.Symbols)
 				{
-					items.Add(symbol.RawName);
+					if (!items.Contains(symbol.RawName))
+					{
+						items.Add(symbol.RawName);
+					}
 				}
 
 				return items.ToArray();
@@ -2879,7 +2882,10 @@ namespace BinaryNinja
 
 				foreach (Symbol symbol in this.Symbols)
 				{
-					items.Add(symbol.FullName);
+					if (!items.Contains(symbol.FullName))
+					{
+						items.Add(symbol.FullName);
+					}
 				}
 
 				return items.ToArray();

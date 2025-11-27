@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class DownloadProvider : AbstractSafeHandle<DownloadProvider>
+	public sealed class DownloadProvider : AbstractSafeHandle
 	{
 		internal DownloadProvider(IntPtr handle)
 			:base(handle , false)

@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Settings : AbstractSafeHandle<Settings>
+	public sealed class Settings : AbstractSafeHandle
 	{
 		public Settings(string schemaId = "default") 
 			: this(NativeMethods.BNCreateSettings(schemaId)  , true)

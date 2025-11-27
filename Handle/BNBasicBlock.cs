@@ -9,8 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public abstract class AbstractBasicBlock<T_SELF> : AbstractSafeHandle<T_SELF>
-		where T_SELF : AbstractBasicBlock<T_SELF>
+	public abstract class AbstractBasicBlock: AbstractSafeHandle
 	{
 		internal AbstractBasicBlock(IntPtr handle , bool owner) 
 			: base(handle , owner)
@@ -28,6 +27,7 @@ namespace BinaryNinja
 	        
 	        return true;
 	    }
+	    
 
 	    public Function? Function
 	    {
@@ -374,7 +374,7 @@ namespace BinaryNinja
 	   
 	}
 	
-	public class BasicBlock : AbstractBasicBlock<BasicBlock>
+	public class BasicBlock : AbstractBasicBlock
 	{
 		internal BasicBlock(IntPtr handle , bool owner) 
 			: base(handle , owner)

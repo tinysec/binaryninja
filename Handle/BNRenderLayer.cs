@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class RenderLayer : AbstractSafeHandle<RenderLayer>
+	public sealed class RenderLayer : AbstractSafeHandle
 	{
 		internal RenderLayer(IntPtr handle)
 			:base(handle, false)

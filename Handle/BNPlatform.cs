@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Platform :  AbstractSafeHandle<Platform>
+	public sealed class Platform :  AbstractSafeHandle
 	{
 		public Platform(Architecture arch , string name)
 			:this( NativeMethods.BNCreatePlatform(arch.DangerousGetHandle() , name) , true)

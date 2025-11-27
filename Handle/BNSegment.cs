@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Segment : AbstractSafeHandle<Segment>
+	public sealed class Segment : AbstractSafeHandle
 	{
 		internal Segment(IntPtr handle , bool owner) 
 			: base(handle , owner)

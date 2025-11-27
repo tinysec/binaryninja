@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Snapshot : AbstractSafeHandle<Snapshot>
+	public sealed class Snapshot : AbstractSafeHandle
 	{
 	    internal Snapshot(IntPtr handle , bool owner) 
 		    : base(handle , owner)

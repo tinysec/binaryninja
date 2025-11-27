@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class Logger : AbstractSafeHandle<Logger>
+	public sealed class Logger : AbstractSafeHandle
 	{
 		public Logger( string name , ulong sessionId = 0 )
 			:this ( Logger.rawGetOrCreateLogger(name , sessionId) , true)

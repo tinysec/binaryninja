@@ -9,7 +9,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class MediumLevelILFunction : AbstractSafeHandle<MediumLevelILFunction>
+	public sealed class MediumLevelILFunction : AbstractSafeHandle
 	{
 		public bool IsSSAForm { get; } = false;
 		

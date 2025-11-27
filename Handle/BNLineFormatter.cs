@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class LineFormatter : AbstractSafeHandle<LineFormatter>
+	public sealed class LineFormatter : AbstractSafeHandle
 	{
 		internal LineFormatter(IntPtr handle)
 			:base(handle , false)

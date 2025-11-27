@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class DownloadInstance : AbstractSafeHandle<DownloadInstance>
+	public sealed class DownloadInstance : AbstractSafeHandle
 	{
 	    internal DownloadInstance(IntPtr handle , bool owner) 
 		    : base(handle , owner)

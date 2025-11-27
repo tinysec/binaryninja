@@ -2,7 +2,7 @@ using System;
 
 namespace BinaryNinja
 {
-	public sealed class LowLevelILVariable : AbstractFunctionVariable<LowLevelILVariable>
+	public sealed class LowLevelILVariable : AbstractFunctionVariable
 	{
 		internal LowLevelILFunction ILFunction;
 

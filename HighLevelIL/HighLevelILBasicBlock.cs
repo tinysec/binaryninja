@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BinaryNinja
 {
-	public sealed class HighLevelILBasicBlock : AbstractBasicBlock<HighLevelILBasicBlock>
+	public sealed class HighLevelILBasicBlock : AbstractBasicBlock
 	{
 		public HighLevelILFunction ILFunction { get; } 
 

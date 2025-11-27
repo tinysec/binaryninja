@@ -5,7 +5,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class HighLevelILTokenEmitter : AbstractSafeHandle<HighLevelILTokenEmitter>
+	public sealed class HighLevelILTokenEmitter : AbstractSafeHandle
 	{
 	    internal HighLevelILTokenEmitter(IntPtr handle , bool owner) 
 		    : base(handle , owner)

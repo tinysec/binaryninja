@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class DataBuffer : AbstractSafeHandle<DataBuffer> , IEnumerable<byte>
+	public sealed class DataBuffer : AbstractSafeHandle , IEnumerable<byte>
 	{
 		public DataBuffer()
 			:this( Array.Empty<byte>() )

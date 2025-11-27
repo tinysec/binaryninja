@@ -1,11 +1,10 @@
 namespace BinaryNinja
 {
-	public abstract class AbstractFunctionVariable<T_SELF> : AbstractVariable<T_SELF>
-		where T_SELF : AbstractFunctionVariable<T_SELF>
+	public abstract class AbstractFunctionVariable : AbstractVariable
 	{
 		public Function Function { get; }
 	
-		internal AbstractFunctionVariable(AbstractFunctionVariable<T_SELF> other) 
+		internal AbstractFunctionVariable(AbstractFunctionVariable other) 
 			:base(other.Type , other.Index ,other.Storage)
 		{
 			this.Function = other.Function;
@@ -83,7 +82,7 @@ namespace BinaryNinja
 		}
 	}
 	
-	public sealed class Variable : AbstractFunctionVariable<Variable>
+	public sealed class Variable : AbstractFunctionVariable
 	{
 		internal Variable(Variable other) 
 			:base(other)

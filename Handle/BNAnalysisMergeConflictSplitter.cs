@@ -6,7 +6,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace BinaryNinja
 {
-	public sealed class AnalysisMergeConflictSplitter : AbstractSafeHandle<AnalysisMergeConflictSplitter>
+	public sealed class AnalysisMergeConflictSplitter : AbstractSafeHandle
 	{
 		internal AnalysisMergeConflictSplitter(IntPtr handle)
 			:base(handle, false)
