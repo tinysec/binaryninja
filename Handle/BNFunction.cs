@@ -853,7 +853,10 @@ namespace BinaryNinja
 
 			    foreach (VariableNameAndType item in this.Variables)
 			    {
-				    
+				    if (!items.Contains(item.Name))
+				    {
+					    items.Add(item.Name);
+				    }
 			    }
 			    
 			    return items.ToArray();
@@ -1662,7 +1665,22 @@ namespace BinaryNinja
 			    return this.GetTypeTokens();
 		    }
 	    }
+		
+	    public VariableNameAndType? ChooseVariable(string prompt = "Choose" , string title = "Choose a variable")
+	    {
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    this.VariableNames
+		    );
 
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetVariableByName(this.VariableNames[(int)index]);
+	    }
 	    
 	}
 }
