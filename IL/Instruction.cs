@@ -8,6 +8,8 @@ namespace BinaryNinja
 		IEquatable<Instruction>, 
 		IComparable<Instruction>
 	{
+		public Function? Function { get; }
+		
 		public ulong Address { get; }
 		
 		public byte[] Data { get; } = Array.Empty<byte>();
@@ -17,12 +19,14 @@ namespace BinaryNinja
 		public InstructionTextToken[] Tokens { get; } = Array.Empty<InstructionTextToken>();
 		
 		public Instruction(
+			Function? function,
 			ulong address,
 			byte[] data,
 			InstructionInfo info ,
 			InstructionTextToken[] tokens 
 		)
 		{
+			this.Function = function;
 			this.Address = address;
 			this.Data = data;
 			this.Info = info;
@@ -110,6 +114,21 @@ namespace BinaryNinja
 			int result = this.Address.CompareTo(other.Address);
 			
 			return result;
+		}
+
+		public LowLevelILInstruction[] LowLevelILInstructions
+		{
+			get
+			{
+				if (this.Function == null)
+				{
+					return Array.Empty<LowLevelILInstruction>();;
+				}
+				
+				return this.Function.LowLevelIL.GetInstructionsAt(
+					this.Address
+				);
+			}
 		}
 	}
 }
