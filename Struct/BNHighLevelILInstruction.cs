@@ -1254,7 +1254,7 @@ namespace BinaryNinja
 			}
 		}
 
-		public MediumLevelILInstruction? MediumLevelIL
+		public MediumLevelILInstruction? MediumLevelILExpression
 		{
 			get
 			{
@@ -1279,7 +1279,7 @@ namespace BinaryNinja
 			}
 		}
 		
-		public MediumLevelILInstruction[] MediumLevelILs
+		public MediumLevelILInstruction[] MediumLevelILExpressions
 		{
 			get
 			{
@@ -1310,6 +1310,28 @@ namespace BinaryNinja
 				}
 				
 				return targets.ToArray();
+			}
+		}
+		
+		public MediumLevelILInstruction[] MediumLevelILInstructions
+		{
+			get
+			{
+				List<MediumLevelILInstruction> mediumInstrs = new List<MediumLevelILInstruction>();
+
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					MediumLevelILInstruction mediumInstr = mediumExpr.ILFunction.MustGetInstruction(
+						mediumExpr.InstructionIndex
+					);
+
+					if (!mediumInstrs.Contains(mediumInstr))
+					{
+						mediumInstrs.Add(mediumInstr);
+					}
+				}
+				
+				return mediumInstrs.ToArray();
 			}
 		}
 
