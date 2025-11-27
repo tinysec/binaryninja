@@ -1540,7 +1540,7 @@ namespace BinaryNinja
 		    return targets.ToArray();
 	    }
 	    
-	    public IEnumerable<LinearDisassemblyLine> LinearDisassemblyLines
+	    public LinearDisassemblyLine[] LinearDisassemblyLines
 	    {
 		    get
 		    {
@@ -1552,11 +1552,20 @@ namespace BinaryNinja
 	    {
 		    StringBuilder builder = new StringBuilder();
 
-		    foreach (LinearDisassemblyLine line in this.GetLinearDisassemblyLines(settings))
-		    {
-			    builder.AppendLine(line.ToString());
-		    }
+		    LinearDisassemblyLine[] lines = this.GetLinearDisassemblyLines(settings);
 
+		    for (int i = 0; i < lines.Length; i++)
+		    {
+			    if (i == ( lines.Length - 1 ))
+			    {
+				    builder.Append(lines[i].ToString());
+			    }
+			    else
+			    {
+				    builder.AppendLine(lines[i].ToString());
+			    }
+		    }
+		
 		    return builder.ToString();
 	    }
 	    

@@ -239,10 +239,10 @@ namespace BinaryNinja
 		}
 
 		public DisassemblyTextLine[] GetLanguageRepresentationExpressionLines(
-			DisassemblySettings? settings = null ,
 			bool asFullAst = false ,
 			OperatorPrecedence precedence = OperatorPrecedence.TopLevelOperatorPrecedence ,
 			bool statement = false ,
+			DisassemblySettings? settings = null ,
 			string language = "Pseudo C"
 		)
 		{
@@ -251,10 +251,10 @@ namespace BinaryNinja
 			foreach (HighLevelILInstruction highExpr in this.HighLevelILExpressions)
 			{
 				DisassemblyTextLine[] lines = highExpr.GetLanguageRepresentationExpressionLines(
-					settings ,
 					asFullAst ,
 					precedence ,
 					statement ,
+					settings ,
 					language
 				);
 
@@ -268,6 +268,94 @@ namespace BinaryNinja
 			}
 
 			return pseudoLines.ToArray();
+		}
+		
+		public DisassemblyTextLine[] PseudoCExpressionLines
+		{
+			get
+			{
+				return this.GetLanguageRepresentationExpressionLines();
+			}
+		}
+
+		public string PseudoCExpressionText
+		{
+			get
+			{
+				StringBuilder builder = new StringBuilder();
+
+				for (int i = 0; i < this.PseudoCExpressionLines.Length; i++)
+				{
+					if (i == ( this.PseudoCExpressionLines.Length - 1) )
+					{
+						builder.Append(this.PseudoCExpressionLines[i].ToString());
+					}
+					else
+					{
+						builder.AppendLine(this.PseudoCExpressionLines[i].ToString());
+					}
+				}
+				
+				return builder.ToString();
+			}
+		}
+		
+		public DisassemblyTextLine[] GetLanguageRepresentationLinearLines(
+			bool asFullAst = false,
+			DisassemblySettings? settings = null ,
+			string language = "Pseudo C" 
+		)
+		{
+			List<DisassemblyTextLine> pseudoLines = new List<DisassemblyTextLine>();
+
+			foreach (HighLevelILInstruction highInstr in this.HighLevelILInstructions)
+			{
+				DisassemblyTextLine[] lines = highInstr.GetLanguageRepresentationLinearLines(
+					asFullAst,
+					settings ,
+					language
+				);
+
+				foreach (DisassemblyTextLine line in lines)
+				{
+					if (!pseudoLines.Contains(line))
+					{
+						pseudoLines.Add(line);
+					}
+				}
+			}
+
+			return pseudoLines.ToArray();
+		}
+		
+		public DisassemblyTextLine[] PseudoCLinearLines
+		{
+			get
+			{
+				return this.GetLanguageRepresentationLinearLines();
+			}
+		}
+
+		public string PseudoCLinearText
+		{
+			get
+			{
+				StringBuilder builder = new StringBuilder();
+
+				for (int i = 0; i < this.PseudoCLinearLines.Length; i++)
+				{
+					if (i == ( this.PseudoCLinearLines.Length - 1) )
+					{
+						builder.Append(this.PseudoCLinearLines[i] .ToString());
+					}
+					else
+					{
+						builder.AppendLine(this.PseudoCLinearLines[i].ToString());
+					}
+				}
+				
+				return builder.ToString();
+			}
 		}
 	}
 

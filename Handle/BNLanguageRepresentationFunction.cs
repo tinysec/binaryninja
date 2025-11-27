@@ -278,7 +278,7 @@ namespace BinaryNinja
 			             settings ,
 			             language
 			             )
-		             )
+		    )
 		    {
 			    builder.AppendLine(line.ToString());
 		    }

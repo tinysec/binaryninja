@@ -101,9 +101,16 @@ namespace BinaryNinja
 	    {
 		    StringBuilder builder = new StringBuilder();
 
-		    foreach (EnumerationMember member in Members)
+		    for (int i = 0; i < this.Members.Length; i++)
 		    {
-			    builder.AppendLine( member.ToString() + ";");
+			    if (i == ( this.Members.Length - 1 ))
+			    {
+				    builder.Append( this.Members[i].ToString() + ";");
+			    }
+			    else
+			    {
+				    builder.AppendLine( this.Members[i].ToString() + ";");
+			    }
 		    }
 		    
 		    return builder.ToString();

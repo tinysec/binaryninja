@@ -1380,9 +1380,9 @@ namespace BinaryNinja
 		}
 
 		public DisassemblyTextLine[] GetLanguageRepresentationLinearLines(
+			bool asFullAst = false,
 			DisassemblySettings? settings = null ,
-			string language = "Pseudo C",
-			bool asFullAst = false
+			string language = "Pseudo C"
 		)
 		{
 			LanguageRepresentationFunction? pseudo = this.ILFunction.GetLanguageRepresentation(language);
@@ -1423,9 +1423,16 @@ namespace BinaryNinja
 			{
 				StringBuilder builder = new StringBuilder();
 
-				foreach (DisassemblyTextLine line in this.PseudoCLinearLines)
+				for (int i = 0; i < this.PseudoCLinearLines.Length; i++)
 				{
-					builder.AppendLine(line.ToString());
+					if (i == ( this.PseudoCLinearLines.Length - 1) )
+					{
+						builder.Append(this.PseudoCLinearLines[i].ToString());
+					}
+					else
+					{
+						builder.AppendLine(this.PseudoCLinearLines[i].ToString());
+					}
 				}
 				
 				return builder.ToString();
@@ -1433,10 +1440,10 @@ namespace BinaryNinja
 		}
 		
 		public DisassemblyTextLine[] GetLanguageRepresentationExpressionLines(
-			DisassemblySettings? settings = null,
 			bool asFullAst = false,
 			OperatorPrecedence precedence = OperatorPrecedence.TopLevelOperatorPrecedence,
 			bool statement = false,
+			DisassemblySettings? settings = null,
 			string language = "Pseudo C"
 		)
 		{
@@ -1482,9 +1489,16 @@ namespace BinaryNinja
 			{
 				StringBuilder builder = new StringBuilder();
 
-				foreach (DisassemblyTextLine line in this.PseudoCExpressionLines)
+				for (int i = 0; i < this.PseudoCExpressionLines.Length; i++)
 				{
-					builder.AppendLine(line.ToString());
+					if (i == ( this.PseudoCExpressionLines.Length - 1) )
+					{
+						builder.Append(this.PseudoCExpressionLines[i].ToString());
+					}
+					else
+					{
+						builder.AppendLine(this.PseudoCExpressionLines[i].ToString());
+					}
 				}
 				
 				return builder.ToString();
@@ -1593,7 +1607,5 @@ namespace BinaryNinja
 				);
 			}
 		}
-		
-		
     }
 }

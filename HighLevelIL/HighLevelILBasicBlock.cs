@@ -371,9 +371,16 @@ namespace BinaryNinja
 		    {
 			    StringBuilder builder = new StringBuilder();
 
-			    foreach (DisassemblyTextLine line in this.PseudoCLines)
+			    for (int i = 0; i < this.PseudoCLines.Length; i++)
 			    {
-				    builder.AppendLine(line.ToString());
+				    if (i == ( this.PseudoCLines.Length - 1 ))
+				    {
+					    builder.Append( this.PseudoCLines[i].ToString());
+				    }
+				    else
+				    {
+					    builder.AppendLine( this.PseudoCLines[i].ToString());
+				    }
 			    }
 			    
 			    return builder.ToString();
