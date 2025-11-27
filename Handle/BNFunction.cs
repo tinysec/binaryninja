@@ -1485,6 +1485,24 @@ namespace BinaryNinja
 
 		    return null;
 	    }
+	    
+	    public Function? ChooseCaller(string prompt = "Choose" , string title = "Choose Caller")
+	    {
+		    string[] names = this.CallerRawNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetCallerByRawName(names[(int)index]);
+	    }
 
 	    public Function[] Callees
 	    {
@@ -1541,6 +1559,24 @@ namespace BinaryNinja
 		    return null;
 	    }
 	    
+	    public Function? ChooseCallee(string prompt = "Choose" , string title = "Choose Callee")
+	    {
+		    string[] names = this.CalleeRawNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetCalleeByRawName(names[(int)index]);
+	    }
+	    
 	    public ulong[] CalleeAddresses
 	    {
 		    get
@@ -1555,6 +1591,8 @@ namespace BinaryNinja
 			    return addresses.ToArray();
 		    }
 	    }
+	    
+	    
 
 	    public Workflow? Workflow
 	    {
