@@ -19,7 +19,7 @@ namespace BinaryNinja
 			}
 		}
 		
-		public ILRegister Source
+		public Register Source
 		{
 			get
 			{

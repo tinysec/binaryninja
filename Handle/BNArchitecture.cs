@@ -124,7 +124,7 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	    public ILRegister[] FullWidthRegisters
+	    public Register[] FullWidthRegisters
 	    {
 		    get
 		    {
@@ -139,18 +139,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILRegister[] Registers
+	    public Register[] Registers
 	    {
 		    get
 		    {
@@ -165,18 +165,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILRegister[] GlobalRegister
+	    public Register[] GlobalRegister
 	    {
 		    get
 		    {
@@ -191,18 +191,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILRegister[] SystemRegister
+	    public Register[] SystemRegister
 	    {
 		    get
 		    {
@@ -217,18 +217,18 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILRegister> targets = new List<ILRegister>();
+			    List<Register> targets = new List<Register>();
 
 			    foreach (RegisterIndex index in indexes)
 			    {
-				    targets.Add( new ILRegister(this , index) );
+				    targets.Add( new Register(this , index) );
 			    }
 
 			    return targets.ToArray();
 		    }
 	    }
 	    
-	    public ILFlag[] Flags
+	    public Flag[] Flags
 	    {
 		    get
 		    {
@@ -243,11 +243,11 @@ namespace BinaryNinja
 				    NativeMethods.BNFreeRegisterList
 			    );
 			    
-			    List<ILFlag> targets = new List<ILFlag>();
+			    List<Flag> targets = new List<Flag>();
 
 			    foreach (FlagIndex index in indexes)
 			    {
-				    targets.Add( new ILFlag(this , index) );
+				    targets.Add( new Flag(this , index) );
 			    }
 
 			    return targets.ToArray();
@@ -574,9 +574,9 @@ namespace BinaryNinja
 		    );
 	    }
 	    
-	    public ILRegister GetRegisterByName(string name)
+	    public Register GetRegisterByName(string name)
 	    {
-		    return new ILRegister(
+		    return new Register(
 			    this ,
 			    NativeMethods.BNGetArchitectureRegisterByName(this.handle , name)
 		    );
@@ -885,11 +885,11 @@ namespace BinaryNinja
 		    NativeMethods.BNFinalizeArchitectureHook(this.handle);
 	    }
 
-	    public ILRegister StackPointerRegister
+	    public Register StackPointerRegister
 	    {
 		    get
 		    {
-			    return new ILRegister(
+			    return new Register(
 				    this ,
 				    (RegisterIndex)NativeMethods.BNGetArchitectureStackPointerRegister(this.handle)
 			    );

@@ -2,20 +2,20 @@ using System;
 
 namespace BinaryNinja
 {
-	public sealed class ILRegister :  IEquatable<ILRegister>,
-		IComparable<ILRegister>
+	public sealed class Register :  IEquatable<Register>,
+		IComparable<Register>
 	{
 		internal Architecture Architecture;
 
 		public RegisterIndex Index { get; }
 
-		public ILRegister(Architecture arch , RegisterIndex index)
+		public Register(Architecture arch , RegisterIndex index)
 		{
 			this.Architecture = arch;
 			this.Index = index;
 		}
 		
-		internal ILRegister(ILRegister other)
+		internal Register(Register other)
 		{
 			this.Architecture = other.Architecture;
 			this.Index = other.Index;
@@ -81,10 +81,10 @@ namespace BinaryNinja
 		
 		public override bool Equals(object? other)
 		{
-			return Equals(other as ILRegister);
+			return Equals(other as Register);
 		}
 
-		public bool Equals(ILRegister? other)
+		public bool Equals(Register? other)
 		{
 			if (other is null)
 			{
@@ -104,7 +104,7 @@ namespace BinaryNinja
 			return this.Index.GetHashCode();
 		}
 
-		public static bool operator ==(ILRegister? left, ILRegister? right)
+		public static bool operator ==(Register? left, Register? right)
 		{
 			if (left is null)
 			{
@@ -114,12 +114,12 @@ namespace BinaryNinja
 			return left.Equals(right);
 		}
 
-		public static bool operator !=(ILRegister? left, ILRegister? right)
+		public static bool operator !=(Register? left, Register? right)
 		{
 			return !(left == right);
 		}
 
-		public int CompareTo(ILRegister? other)
+		public int CompareTo(Register? other)
 		{
 			if (other is null)
 			{

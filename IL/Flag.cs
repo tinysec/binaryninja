@@ -2,19 +2,19 @@ using System;
 
 namespace BinaryNinja
 {
-	public class ILFlag : IEquatable<ILFlag>, IComparable<ILFlag>
+	public class Flag : IEquatable<Flag>, IComparable<Flag>
 	{
 		internal Architecture Architecture { get; }
 
 		public FlagIndex Index { get; }
 
-		internal ILFlag(Architecture arch , FlagIndex index)
+		internal Flag(Architecture arch , FlagIndex index)
 		{
 			this.Architecture = arch;
 			this.Index = index;
 		}
 		
-		internal ILFlag(ILFlag other)
+		internal Flag(Flag other)
 		{
 			this.Architecture = other.Architecture;
 			this.Index = other.Index;
@@ -45,10 +45,10 @@ namespace BinaryNinja
 		
 		public override bool Equals(object? other)
 		{
-			return Equals(other as ILFlag);
+			return Equals(other as Flag);
 		}
 
-		public bool Equals(ILFlag? other)
+		public bool Equals(Flag? other)
 		{
 			if (other is null)
 			{
@@ -68,7 +68,7 @@ namespace BinaryNinja
 			return this.Index.GetHashCode();
 		}
 
-		public static bool operator ==(ILFlag? left, ILFlag? right)
+		public static bool operator ==(Flag? left, Flag? right)
 		{
 			if (left is null)
 			{
@@ -78,12 +78,12 @@ namespace BinaryNinja
 			return left.Equals(right);
 		}
 
-		public static bool operator !=(ILFlag? left, ILFlag? right)
+		public static bool operator !=(Flag? left, Flag? right)
 		{
 			return !(left == right);
 		}
 
-		public int CompareTo(ILFlag? other)
+		public int CompareTo(Flag? other)
 		{
 			if (other is null)
 			{
