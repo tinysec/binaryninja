@@ -371,62 +371,7 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	    public DisassemblyTextLine[] GetLanguageRepresentationLines(
-		    DisassemblySettings? settings = null,
-		    string language = "Pseudo C"
-	    )
-	    {
-		    Function? function = this.Function;
-
-		    if (null == function)
-		    {
-			    return Array.Empty<DisassemblyTextLine>();
-		    }
-		    
-		    LanguageRepresentationFunction? pseudo = function.GetLanguageRepresentation(language);
-
-		    if (null == pseudo)
-		    {
-			    return Array.Empty<DisassemblyTextLine>();
-		    }
-		    
-		    IntPtr arrayPointer = NativeMethods.BNGetLanguageRepresentationFunctionBlockLines(
-			    pseudo.DangerousGetHandle() ,
-			    this.DangerousGetHandle() ,
-			    null == settings ? IntPtr.Zero :  settings.DangerousGetHandle() ,
-			    out ulong arrayLength
-		    );
-
-		    return UnsafeUtils.TakeStructArrayEx<BNDisassemblyTextLine , DisassemblyTextLine>(
-			    arrayPointer ,
-			    arrayLength ,
-			    DisassemblyTextLine.FromNative ,
-			    NativeMethods.BNFreeDisassemblyTextLines
-		    );
-	    }
-	    
-	    public DisassemblyTextLine[] PseudoCLines
-	    {
-		    get
-		    {
-			    return this.GetLanguageRepresentationLines();
-		    }
-	    }
-	    
-	    public string PseudoCText
-	    {
-		    get
-		    {
-			    StringBuilder builder = new  StringBuilder();
-
-			    foreach (DisassemblyTextLine line in this.PseudoCLines)
-			    {
-				    builder.AppendLine(line.ToString());
-			    }
-			    
-			    return builder.ToString();
-		    }
-	    }
+	   
 	}
 	
 	public class BasicBlock : AbstractBasicBlock<BasicBlock>
@@ -747,6 +692,8 @@ namespace BinaryNinja
 				    }
 			    
 				    byte[] data = new byte[info.Length];
+				    
+				    Array.Copy(buffer, data, data.Length);
 			    
 				    InstructionTextToken[] tokens = this.Architecture.GetInstructionText(
 					    data , 

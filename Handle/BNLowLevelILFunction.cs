@@ -706,13 +706,20 @@ namespace BinaryNinja
 			    out ulong arrayLength 
 		    );
 
-		    LowLevelILInstructionIndex[] indexes =  UnsafeUtils.TakeNumberArray<LowLevelILInstructionIndex>(
+		    ulong[] indexes =  UnsafeUtils.TakeNumberArray<ulong>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
-		    
-		    return this.MustGetInstructions(indexes);
+
+		    List<LowLevelILInstruction> instructions = new List<LowLevelILInstruction>();
+
+		    foreach (LowLevelILInstructionIndex index in indexes)
+		    {
+			    instructions.Add( this.MustGetInstruction(index) );
+		    }
+
+		    return instructions.ToArray();
 	    }
 	    
 	    public LowLevelILInstruction? CurrentInstruction
@@ -1314,13 +1321,20 @@ namespace BinaryNinja
 			    out ulong arrayLength
 			);
 	
-		    MediumLevelILExpressionIndex[] mediumExprs = UnsafeUtils.TakeNumberArray<MediumLevelILExpressionIndex>(
+		    ulong[] mediumExprIndexs = UnsafeUtils.TakeNumberArray<ulong>(
 			    arrayPointer ,
 			    arrayLength ,
 			    NativeMethods.BNFreeILInstructionList
 		    );
 
-		    return mlil.MustGetExpressions(mediumExprs);
+		    List<MediumLevelILInstruction> expressions = new List<MediumLevelILInstruction>();
+
+		    foreach (MediumLevelILExpressionIndex mediumExprIndex in mediumExprIndexs)
+		    {
+			    expressions.Add( mlil.MustGetExpression(mediumExprIndex) );
+		    }
+
+		    return expressions.ToArray();
 	    }
 
 	    // mapped

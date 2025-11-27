@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace BinaryNinja
@@ -234,6 +236,76 @@ namespace BinaryNinja
 
 				return highInstrs.ToArray();
 			}
+		}
+
+		public DisassemblyTextLine[] GetLanguageRepresentationExpressionLines(
+			DisassemblySettings? settings = null ,
+			bool asFullAst = false ,
+			OperatorPrecedence precedence = OperatorPrecedence.TopLevelOperatorPrecedence ,
+			bool statement = false ,
+			string language = "Pseudo C"
+		)
+		{
+			List<DisassemblyTextLine> pseudoLines = new List<DisassemblyTextLine>();
+
+			foreach (HighLevelILInstruction highExpr in this.HighLevelILExpressions)
+			{
+				DisassemblyTextLine[] lines = highExpr.GetLanguageRepresentationExpressionLines(
+					settings ,
+					asFullAst ,
+					precedence ,
+					statement ,
+					language
+				);
+
+				foreach (DisassemblyTextLine line in lines)
+				{
+					if (!pseudoLines.Contains(line))
+					{
+						pseudoLines.Add(line);
+					}
+				}
+			}
+
+			return pseudoLines.ToArray();
+		}
+	}
+
+
+	public static class InstructionTest
+	{
+		public static void Test()
+		{
+			NativeLibrary.SetDllImportResolver(
+				typeof(BinaryNinja.Core).Assembly,
+				new LibraryResolver().ResolveDllImport
+			);
+			
+			BinaryNinja.Core.InitPlugins(true);
+
+			BinaryView? view = BinaryView.LoadFile("/data/afd.sys.bndb");
+
+			if (null == view)
+			{
+				throw new Exception("load file fail");
+			}
+
+			Function? function = view.GetFunctionByRawName("_tlgCreate1Sz_char");
+
+			if (null == function)
+			{
+				throw new Exception("not found function");
+			}
+
+			BasicBlock basicBlock = function.BasicBlocks[0];
+			
+			foreach (Instruction instruction in basicBlock.Instructions)
+			{
+				Console.WriteLine(instruction.Text);
+			}
+			
+			BinaryNinja.Core.Shutdown();
+
 		}
 	}
 }
