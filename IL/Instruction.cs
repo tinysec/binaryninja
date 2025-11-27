@@ -141,20 +141,46 @@ namespace BinaryNinja
 					return Array.Empty<MediumLevelILInstruction>();
 				}
 
-				List<MediumLevelILInstruction> items = new List<MediumLevelILInstruction>();
+				List<MediumLevelILInstruction> mediumExprs = new List<MediumLevelILInstruction>();
 				
 				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
 				{
 					foreach (MediumLevelILInstruction mediumExpr in lowInstr.MediumLevelILExpressions)
 					{
-						if (!items.Contains(mediumExpr))
+						if (!mediumExprs.Contains(mediumExpr))
 						{
-							items.Add(mediumExpr);
+							mediumExprs.Add(mediumExpr);
 						}
 					}
 				}
 
-				return items.ToArray();
+				return mediumExprs.ToArray();
+			}
+		}
+		
+		public MediumLevelILInstruction[] MediumLevelILInstructions
+		{
+			get
+			{
+				if (null == this.Function)
+				{
+					return Array.Empty<MediumLevelILInstruction>();
+				}
+
+				List<MediumLevelILInstruction> mediumInstrs = new List<MediumLevelILInstruction>();
+				
+				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
+				{
+					foreach (MediumLevelILInstruction mediumInstr in lowInstr.MediumLevelILInstructions)
+					{
+						if (!mediumInstrs.Contains(mediumInstr))
+						{
+							mediumInstrs.Add(mediumInstr);
+						}
+					}
+				}
+
+				return mediumInstrs.ToArray();
 			}
 		}
 		
@@ -167,24 +193,46 @@ namespace BinaryNinja
 					return Array.Empty<HighLevelILInstruction>();
 				}
 
-				List<HighLevelILInstruction> items = new List<HighLevelILInstruction>();
+				List<HighLevelILInstruction> highExprs = new List<HighLevelILInstruction>();
 				
 				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
 				{
-					HighLevelILInstruction[] highExprs = this.Function.LowLevelIL.GetHighLevelILExpressions(
-						lowInstr.ExpressionIndex
-					);
-
-					foreach (HighLevelILInstruction highExpr in highExprs)
+					foreach (HighLevelILInstruction highExpr in lowInstr.HighLevelILExpressions)
 					{
-						if (!items.Contains(highExpr))
+						if (!highExprs.Contains(highExpr))
 						{
-							items.Add(highExpr);
+							highExprs.Add(highExpr);
 						}
 					}
 				}
 
-				return items.ToArray();
+				return highExprs.ToArray();
+			}
+		}
+		
+		public HighLevelILInstruction[] HighLevelILInstructions
+		{
+			get
+			{
+				if (null == this.Function)
+				{
+					return Array.Empty<HighLevelILInstruction>();
+				}
+
+				List<HighLevelILInstruction> highInstrs = new List<HighLevelILInstruction>();
+				
+				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
+				{
+					foreach (HighLevelILInstruction highInstr in lowInstr.HighLevelILInstructions)
+					{
+						if (!highInstrs.Contains(highInstr))
+						{
+							highInstrs.Add(highInstr);
+						}
+					}
+				}
+
+				return highInstrs.ToArray();
 			}
 		}
 	}

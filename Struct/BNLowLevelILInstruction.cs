@@ -1794,7 +1794,7 @@ namespace BinaryNinja
 		{
 			get
 			{
-				List<MediumLevelILInstruction> items = new List<MediumLevelILInstruction>();
+				List<MediumLevelILInstruction> mediumInstrs = new List<MediumLevelILInstruction>();
 				
 				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
 				{
@@ -1802,13 +1802,13 @@ namespace BinaryNinja
 						mediumExpr.InstructionIndex
 					);
 
-					if (!items.Contains(mediumInst))
+					if (!mediumInstrs.Contains(mediumInst))
 					{
-						items.Add(mediumInst);
+						mediumInstrs.Add(mediumInst);
 					}
 				}
 
-				return items.ToArray();
+				return mediumInstrs.ToArray();
 			}
 		}
 		
@@ -1866,7 +1866,7 @@ namespace BinaryNinja
 		{
 			get
 			{
-				List<HighLevelILInstruction> items = new List<HighLevelILInstruction>();
+				List<HighLevelILInstruction> highInstrs = new List<HighLevelILInstruction>();
 				
 				foreach (HighLevelILInstruction highExpr in this.HighLevelILExpressions)
 				{
@@ -1874,13 +1874,13 @@ namespace BinaryNinja
 						highExpr.InstructionIndex
 					);
 
-					if (!items.Contains(highInst))
+					if (!highInstrs.Contains(highInst))
 					{
-						items.Add(highInst);
+						highInstrs.Add(highInst);
 					}
 				}
 
-				return items.ToArray();
+				return highInstrs.ToArray();
 			}
 		}
 		
