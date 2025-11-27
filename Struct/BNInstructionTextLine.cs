@@ -39,6 +39,8 @@ namespace BinaryNinja
 			InstructionTextToken[] tokens
 		) 
 		{
+			this.Address = address;
+			this.Data = data;
 		    this.Tokens = tokens;
 		}
 
