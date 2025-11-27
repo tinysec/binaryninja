@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Win32.SafeHandles;
@@ -680,7 +681,6 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	    
 	    public BasicBlock[] GetDominanceFrontier(bool post)
 	    {
 		    ulong arrayLength = 0;
@@ -714,64 +714,59 @@ namespace BinaryNinja
 			    return this.GetDominanceFrontier(true);
 		    }
 	    }
-	    
-	    public IEnumerable<Instruction> GetInstructions()
-	    {
-		    if (null == this.View)
-		    {
-			    throw new Exception("View is null");
-		    }
-		   
-		    ulong address = this.Start;
-
-		    while (address < this.End)
-		    {
-			    ulong bufferLength = this.End - address;
-			    
-			    bufferLength = Math.Min(this.Architecture.MaxInstructionLength, this.Length - address);
-
-			    byte[] buffer = this.View.ReadData(address , bufferLength);
-
-			    InstructionInfo? info = this.Architecture.GetInstructionInfo(buffer , address);
-
-			    if (null == info)
-			    {
-				    throw new Exception("get instruction info fail");
-			    }
-
-			    if (0 == info.Length)
-			    {
-				    throw new Exception("Instruction length out of range");
-			    }
-			    
-			    byte[] data = new byte[info.Length];
-			    
-			    InstructionTextToken[] tokens = this.Architecture.GetInstructionText(
-				    data , 
-				    address ,
-				    out ulong instrLength
-				);
-
-			    if (instrLength != info.Length)
-			    {
-				    throw new Exception("Instruction length mismatch");
-			    }
-
-			    yield return new Instruction(
-				    data,
-				    info,
-				    tokens
-				);
-			    
-			    address += instrLength;
-		    }
-	    }
-	    
+	   
 	    public IEnumerable<Instruction> Instructions
 	    {
 		    get
 		    {
-			    return this.GetInstructions();
+			    if (null == this.View)
+			    {
+				    throw new Exception("View is null");
+			    }
+		   
+			    ulong address = this.Start;
+
+			    while (address < this.End)
+			    {
+				    ulong bufferLength = this.End - address;
+			    
+				    bufferLength = Math.Min(this.Architecture.MaxInstructionLength, this.Length - address);
+
+				    byte[] buffer = this.View.ReadData(address , bufferLength);
+
+				    InstructionInfo? info = this.Architecture.GetInstructionInfo(buffer , address);
+
+				    if (null == info)
+				    {
+					    throw new Exception("get instruction info fail");
+				    }
+
+				    if (0 == info.Length)
+				    {
+					    throw new Exception("Instruction length out of range");
+				    }
+			    
+				    byte[] data = new byte[info.Length];
+			    
+				    InstructionTextToken[] tokens = this.Architecture.GetInstructionText(
+					    data , 
+					    address ,
+					    out ulong instrLength
+				    );
+
+				    if (instrLength != info.Length)
+				    {
+					    throw new Exception("Instruction length mismatch");
+				    }
+
+				    yield return new Instruction(
+					    data,
+					    info,
+					    tokens
+				    );
+			    
+				    address += instrLength;
+			    }
 		    }
 	    }
 
