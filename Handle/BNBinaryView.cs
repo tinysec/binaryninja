@@ -5749,10 +5749,12 @@ namespace BinaryNinja
 
 	    public Symbol? ChooseSymbol(string prompt = "Choose" , string title = "Choose a symbol")
 	    {
+		    string[] names = this.SymbolNames;
+		    
 		    int? index = Core.GetLargeChoiceInput(
 			    prompt ,
 			    title ,
-			    this.SymbolNames
+			    names
 		    );
 
 		    if (null == index)
@@ -5760,15 +5762,17 @@ namespace BinaryNinja
 			    return null;
 		    }
 		    
-		    return this.GetSymbolByRawName(this.SymbolNames[(int)index]);
+		    return this.GetSymbolByRawName(names[(int)index]);
 	    }
 	    
 	    public Function? ChooseFunction(string prompt = "Choose" , string title = "Choose a function")
 	    {
+		    string[] names = this.SymbolNames;
+		    
 		    int? index = Core.GetLargeChoiceInput(
 			    prompt ,
 			    title ,
-			    this.SymbolNames
+			    names
 		    );
 
 		    if (null == index)
@@ -5776,7 +5780,7 @@ namespace BinaryNinja
 			    return null;
 		    }
 		    
-		    return this.GetFunctionByRawName(this.SymbolNames[(int)index]);
+		    return this.GetFunctionByRawName(names[(int)index]);
 	    }
 	}
 	

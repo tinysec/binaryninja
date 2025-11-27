@@ -1600,8 +1600,7 @@ namespace BinaryNinja
 		    }
 	    }
 	    
-	
-	    public PluginCommand[] ValidPluginCommands
+	    public PluginCommand[] PluginCommands
 	    {
 		    get
 		    {
@@ -1618,6 +1617,37 @@ namespace BinaryNinja
 				    NativeMethods.BNFreePluginCommandList
 			    );
 		    }
+	    }
+
+	    public string[] PluginCommandsNames
+	    {
+		    get
+		    {
+			    List<string> items = new List<string>();
+
+			    foreach (PluginCommand command in this.PluginCommands)
+			    {
+				    if (!items.Contains(command.Name))
+				    {
+					    items.Add(command.Name);
+				    }
+			    }
+			    
+			    return items.ToArray();
+		    }
+	    }
+
+	    public PluginCommand? GetPluginCommandByName(string name)
+	    {
+		    foreach (PluginCommand command in this.PluginCommands)
+		    {
+			    if (name == command.Name)
+			    {
+				    return  command;
+			    }
+		    }
+
+		    return null;
 	    }
 
 	    public string GetVariableNameOrDefault(CoreVariable variable)
@@ -1668,10 +1698,12 @@ namespace BinaryNinja
 		
 	    public VariableNameAndType? ChooseVariable(string prompt = "Choose" , string title = "Choose a variable")
 	    {
+		    string[] names = this.VariableNames;
+		    
 		    int? index = Core.GetLargeChoiceInput(
 			    prompt ,
 			    title ,
-			    this.VariableNames
+			    names
 		    );
 
 		    if (null == index)
@@ -1679,8 +1711,25 @@ namespace BinaryNinja
 			    return null;
 		    }
 		    
-		    return this.GetVariableByName(this.VariableNames[(int)index]);
+		    return this.GetVariableByName(names[(int)index]);
 	    }
 	    
+	    public PluginCommand? ChoosePluginCommand(string prompt = "Choose" , string title = "Choose a plugin command")
+	    {
+		    string[] names = this.PluginCommandsNames;
+		    
+		    int? index = Core.GetLargeChoiceInput(
+			    prompt ,
+			    title ,
+			    names
+		    );
+
+		    if (null == index)
+		    {
+			    return null;
+		    }
+		    
+		    return this.GetPluginCommandByName(names[(int)index]);
+	    }
 	}
 }

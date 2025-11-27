@@ -1767,7 +1767,7 @@ namespace BinaryNinja
 		    BinaryView view,
 		    LowLevelILFunction function,
 		    ulong instruction
-		    )
+		)
 	    {
 		    IntPtr arrayPointer = NativeMethods.BNGetValidPluginCommandsForLowLevelILInstruction(
 			    view.DangerousGetHandle(),
