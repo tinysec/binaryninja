@@ -760,6 +760,7 @@ namespace BinaryNinja
 				    }
 
 				    yield return new Instruction(
+					    address ,
 					    data,
 					    info,
 					    tokens
