@@ -486,41 +486,41 @@ namespace BinaryNinja
 		    );
 	    }
 	    
-	 
-	    
-
-	    public bool GetInstructionInfo(
+	    public InstructionInfo? GetInstructionInfo(
 		    byte[] data ,
-		    ulong address ,
-		    ulong maxLength ,
-		    out InstructionInfo info
+		    ulong address 
 	    )
 	    {
 		    bool ok = false;
-
-		    BNInstructionInfo raw;
-
+		    
 		    ok = NativeMethods.BNGetInstructionInfo(
 			    this.handle ,
 			    data ,
 			    address ,
-			    maxLength ,
-			    out raw
+			     Math.Min(this.MaxInstructionLength , (ulong)data.Length) ,
+			    out BNInstructionInfo raw
 		    );
 
-		    if (ok)
+		    if (!ok)
 		    {
-			    info = InstructionInfo.FromNative(raw);
-		    }
-		    else
-		    {
-			    info = new InstructionInfo();
+			    return null;
 		    }
 		    
-		    return ok;
+		    return InstructionInfo.FromNative(raw);
 	    }
 	    
-	    public InstructionTextToken[] GetInstructionText(byte[]data , ulong address , ref ulong length )
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="data"></param>
+	    /// <param name="address"></param>
+	    /// <param name="length">instruction length in bytes</param>
+	    /// <returns></returns>
+	    public InstructionTextToken[] GetInstructionText(
+		    byte[]data , 
+		    ulong address , 
+		    out ulong length  
+		)
 	    {
 		    IntPtr arrayPointer = IntPtr.Zero;
 
@@ -528,27 +528,33 @@ namespace BinaryNinja
 
 		    bool ok = false;
 
-		    length = (ulong)data.Length;
+		    ulong bufferLength = (ulong)data.Length;
 
 		    ok = NativeMethods.BNGetInstructionText(
 			    this.handle ,
 			    data ,
 			    address ,
-			    ref length ,
+			    ref bufferLength ,
 			    out arrayPointer ,
 			    out arrayLength 
 		    );
-
+		   
 		    InstructionTextToken[] tokens = Array.Empty<InstructionTextToken>();
 		
 		    if (ok )
 		    {
+			    length = bufferLength;
+			    
 			    tokens = UnsafeUtils.TakeStructArrayEx<BNInstructionTextToken ,InstructionTextToken>(
 				    arrayPointer ,
 				    arrayLength,
 				    InstructionTextToken.FromNative,
 				    NativeMethods.BNFreeInstructionText
 			    );
+		    }
+		    else
+		    {
+			    length = 0;
 		    }
 
 		    return tokens;

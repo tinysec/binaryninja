@@ -714,16 +714,8 @@ namespace BinaryNinja
 			    return this.GetDominanceFrontier(true);
 		    }
 	    }
-
-	    public IEnumerable<InstructionTextLine> InstructionTextLines
-	    {
-		    get
-		    {
-			    return this.GetInstructionTextLines();
-		    }
-	    }
-
-	    public IEnumerable<InstructionTextLine> GetInstructionTextLines()
+	    
+	    public IEnumerable<Instruction> GetInstructions()
 	    {
 		    if (null == this.View)
 		    {
@@ -734,27 +726,54 @@ namespace BinaryNinja
 
 		    while (address < this.End)
 		    {
-			    ulong length = this.End - address;
+			    ulong bufferLength = this.End - address;
 			    
-			    length = Math.Min(this.Architecture.MaxInstructionLength, this.Length - address);
+			    bufferLength = Math.Min(this.Architecture.MaxInstructionLength, this.Length - address);
 
-			    byte[] data = this.View.ReadData(address , length);
+			    byte[] buffer = this.View.ReadData(address , bufferLength);
 
+			    InstructionInfo? info = this.Architecture.GetInstructionInfo(buffer , address);
+
+			    if (null == info)
+			    {
+				    throw new Exception("get instruction info fail");
+			    }
+
+			    if (0 == info.Length)
+			    {
+				    throw new Exception("Instruction length out of range");
+			    }
+			    
+			    byte[] data = new byte[info.Length];
+			    
 			    InstructionTextToken[] tokens = this.Architecture.GetInstructionText(
 				    data , 
 				    address ,
-				    ref length
+				    out ulong instrLength
 				);
 
-			    if (0 == length)
+			    if (instrLength != info.Length)
 			    {
-				    break;
+				    throw new Exception("Instruction length mismatch");
 			    }
 
-			    yield return new InstructionTextLine(address , data , tokens);
+			    yield return new Instruction(
+				    data,
+				    info,
+				    tokens
+				);
 			    
-			    address += length;
+			    address += instrLength;
 		    }
 	    }
+	    
+	    public IEnumerable<Instruction> Instructions
+	    {
+		    get
+		    {
+			    return this.GetInstructions();
+		    }
+	    }
+
 	}
 }
