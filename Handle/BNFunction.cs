@@ -293,9 +293,25 @@ namespace BinaryNinja
 			);
 	    }
 	    
+	    public void SetUserReturnType(TypeWithConfidence type)
+	    {
+		    NativeMethods.BNSetUserFunctionReturnType(
+			    this.handle,
+			    type.ToNative()
+		    );
+	    }
+	    
 	    public void SetAutoCallingConvention(CallingConventionWithConfidence convention)
 	    {
 		    NativeMethods.BNSetAutoFunctionCallingConvention(
+			    this.handle,
+			    convention.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserCallingConvention(CallingConventionWithConfidence convention)
+	    {
+		    NativeMethods.BNSetUserFunctionCallingConvention(
 			    this.handle,
 			    convention.ToNative()
 		    );
@@ -311,10 +327,29 @@ namespace BinaryNinja
 			    );
 		    }
 	    }
+	    
+	    public void SetUserParameterVariables(ParameterVariablesWithConfidence parameterVariables)
+	    {
+		    using (ScopedAllocator allocator = new ScopedAllocator())
+		    {
+			    NativeMethods.BNSetUserFunctionParameterVariables(
+				    this.handle,
+				    parameterVariables.ToNativeEx(allocator)
+			    );
+		    }
+	    }
 
 	    public void SetAutoHasVariableArguments(BoolWithConfidence  hasVariableArguments)
 	    {
 		    NativeMethods.BNSetAutoFunctionHasVariableArguments(
+			    this.handle ,
+			    hasVariableArguments.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserHasVariableArguments(BoolWithConfidence  hasVariableArguments)
+	    {
+		    NativeMethods.BNSetUserFunctionHasVariableArguments(
 			    this.handle ,
 			    hasVariableArguments.ToNative()
 		    );
@@ -325,6 +360,30 @@ namespace BinaryNinja
 		    NativeMethods.BNSetAutoFunctionCanReturn(
 			    this.handle ,
 			    canReturn.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserCanReturn(BoolWithConfidence  canReturn)
+	    {
+		    NativeMethods.BNSetUserFunctionCanReturn(
+			    this.handle ,
+			    canReturn.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoPure(BoolWithConfidence  pure)
+	    {
+		    NativeMethods.BNSetAutoFunctionPure(
+			    this.handle ,
+			    pure.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserPure(BoolWithConfidence  pure)
+	    {
+		    NativeMethods.BNSetUserFunctionPure(
+			    this.handle ,
+			    pure.ToNative()
 		    );
 	    }
 	    
@@ -1346,6 +1405,15 @@ namespace BinaryNinja
 	    {
 		    NativeMethods.BNDeleteUserVariable(this.handle , variable.ToNative());
 	    }
+
+	    public bool IsCallInstruction(ulong address , Architecture? arch = null)
+	    {
+		    return NativeMethods.BNIsCallInstruction(
+			    this.handle ,
+			    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+			    address
+		    );
+	    }
 	    
 	    public ReferenceSource[] CallSites
 	    {
@@ -1383,6 +1451,41 @@ namespace BinaryNinja
 		    }
 	    }
 
+	    public string[] CallerRawNames
+	    {
+		    get
+		    {
+			    List<string> names = new List<string>();
+			    
+			    Function[] functions = this.Callers;
+
+			    foreach (Function function in functions)
+			    {
+				    if (!names.Contains(function.RawName))
+				    {
+					    names.Add(function.RawName);
+				    }
+			    }
+			    
+			    return names.ToArray();
+		    }
+	    }
+
+	    public Function? GetCallerByRawName(string name)
+	    {
+		    Function[] functions = this.Callers;
+		    
+		    foreach (Function function in functions)
+		    {
+			    if (function.RawName == name)
+			    {
+				    return function;
+			    }
+		    }
+
+		    return null;
+	    }
+
 	    public Function[] Callees
 	    {
 		    get
@@ -1401,6 +1504,41 @@ namespace BinaryNinja
 			    
 			    return functions.Values.ToArray();
 		    }
+	    }
+	    
+	    public string[] CalleeRawNames
+	    {
+		    get
+		    {
+			    List<string> names = new List<string>();
+			    
+			    Function[] functions = this.Callees;
+
+			    foreach (Function function in functions)
+			    {
+				    if (!names.Contains(function.RawName))
+				    {
+					    names.Add(function.RawName);
+				    }
+			    }
+			    
+			    return names.ToArray();
+		    }
+	    }
+	    
+	    public Function? GetCalleeByRawName(string name)
+	    {
+		    Function[] functions = this.Callees;
+		    
+		    foreach (Function function in functions)
+		    {
+			    if (function.RawName == name)
+			    {
+				    return function;
+			    }
+		    }
+
+		    return null;
 	    }
 	    
 	    public ulong[] CalleeAddresses

@@ -134,6 +134,19 @@ namespace BinaryNinja
 				}
 			}
 		}
+
+		public bool IsCall
+		{
+			get
+			{
+				if (null == this.Function)
+				{
+					return false;
+				}
+				
+				return this.Function.IsCallInstruction(this.Address);
+			}
+		}
 		
 		public LowLevelILInstruction[] LowLevelILInstructions
 		{
