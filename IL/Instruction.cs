@@ -141,7 +141,7 @@ namespace BinaryNinja
 					return Array.Empty<MediumLevelILInstruction>();
 				}
 
-				List<MediumLevelILInstruction> targets = new List<MediumLevelILInstruction>();
+				List<MediumLevelILInstruction> items = new List<MediumLevelILInstruction>();
 				
 				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
 				{
@@ -151,14 +151,14 @@ namespace BinaryNinja
 
 					foreach (MediumLevelILInstruction mediumExpr in mediumExprs)
 					{
-						if (!targets.Contains(mediumExpr))
+						if (!items.Contains(mediumExpr))
 						{
-							targets.Add(mediumExpr);
+							items.Add(mediumExpr);
 						}
 					}
 				}
 
-				return targets.ToArray();
+				return items.ToArray();
 			}
 		}
 		
@@ -171,7 +171,7 @@ namespace BinaryNinja
 					return Array.Empty<HighLevelILInstruction>();
 				}
 
-				List<HighLevelILInstruction> targets = new List<HighLevelILInstruction>();
+				List<HighLevelILInstruction> items = new List<HighLevelILInstruction>();
 				
 				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
 				{
@@ -181,14 +181,14 @@ namespace BinaryNinja
 
 					foreach (HighLevelILInstruction highExpr in highExprs)
 					{
-						if (!targets.Contains(highExpr))
+						if (!items.Contains(highExpr))
 						{
-							targets.Add(highExpr);
+							items.Add(highExpr);
 						}
 					}
 				}
 
-				return targets.ToArray();
+				return items.ToArray();
 			}
 		}
 	}
