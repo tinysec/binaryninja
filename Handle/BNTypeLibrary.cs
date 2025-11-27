@@ -213,7 +213,7 @@ namespace BinaryNinja
 				    arrayPointer,
 				    arrayLength,
 				    NativeMethods.BNFreeStringList
-				    );
+				);
 		    }
 	    }
 	    
@@ -391,6 +391,5 @@ namespace BinaryNinja
 			    );
 		    }
 	    }
-	    
 	}
 }

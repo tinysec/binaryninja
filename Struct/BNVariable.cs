@@ -28,7 +28,7 @@ namespace BinaryNinja
 	     IEquatable<AbstractVariable>,
 	     IComparable<AbstractVariable>
     {
-		public VariableSourceType Type { get; internal set; } = VariableSourceType.StackVariableSourceType;
+		public VariableSourceType Source { get; internal set; } = VariableSourceType.StackVariableSourceType;
 		
 		public uint Index { get; internal set; } = 0;
 		
@@ -40,19 +40,19 @@ namespace BinaryNinja
 		}
 		
 		internal AbstractVariable(
-			VariableSourceType type,
+			VariableSourceType source,
 			uint index,
 			long storage
 		) 
 		{
-			this.Type = type;
+			this.Source = source;
 			this.Index = index;
 			this.Storage = storage;
 		}
 		
 		internal AbstractVariable(BNVariable native)
 		{
-			this.Type = native.type;
+			this.Source = native.type;
 			this.Index = native.index;
 			this.Storage = native.storage;
 		}
@@ -61,7 +61,7 @@ namespace BinaryNinja
 		{
 			return new BNVariable()
 			{
-				type = this.Type ,
+				type = this.Source ,
 				index = this.Index ,
 				storage = this.Storage
 			};

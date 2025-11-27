@@ -1197,6 +1197,112 @@ namespace BinaryNinja
 				    address)
 		    );
 	    }
+
+	    public HighlightColor GetInstructionHighlight(ulong address , Architecture? arch = null)
+	    {
+		    return HighlightColor.FromNative(
+			    NativeMethods.BNGetInstructionHighlight(
+				    this.handle ,
+				    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+				    address
+			    )
+		    );
+	    }
+
+	    public void SetAutoInstructionHighlight(ulong address , HighlightColor color , Architecture? arch = null)
+	    {
+		    NativeMethods.BNSetAutoInstructionHighlight(
+			    this.handle ,
+			    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+			    address ,
+			    color.ToNative()
+		    );
+	    }
+	    
+	    public void SetUserInstructionHighlight(ulong address , HighlightColor color , Architecture? arch = null)
+	    {
+		    NativeMethods.BNSetUserInstructionHighlight(
+			    this.handle ,
+			    null == arch ? IntPtr.Zero : arch.DangerousGetHandle() ,
+			    address ,
+			    color.ToNative()
+		    );
+	    }
+	    
+	    public void CreateAutoStackVariable(
+		    long offset ,
+		    TypeWithConfidence type ,
+		    string name 
+	    )
+	    {
+		    NativeMethods.BNCreateAutoStackVariable(
+			    this.handle ,
+			    offset ,
+			    type.ToNative() ,
+			    name 
+		    );
+	    }
+	    
+	    public void CreateUserStackVariable(
+		    long offset ,
+		    TypeWithConfidence type ,
+		    string name 
+	    )
+	    {
+		    NativeMethods.BNCreateUserStackVariable(
+			    this.handle ,
+			    offset ,
+			    type.ToNative() ,
+			    name 
+		    );
+	    }
+	    
+	    public void DeleteAutoStackVariable(long offset)
+	    {
+		    NativeMethods.BNDeleteAutoStackVariable(this.handle , offset );
+	    }
+	    
+	    public void DeleteUserStackVariable(long offset)
+	    {
+		    NativeMethods.BNDeleteUserStackVariable(this.handle , offset );
+	    }
+
+	    public void CreateAutoVariable(
+		    AbstractVariable variable,
+		    TypeWithConfidence type ,
+		    string name ,
+		    bool ignoreDisjointUses = false
+	    )
+	    {
+		    NativeMethods.BNCreateAutoVariable(
+			    this.handle ,
+			    variable.ToNative() ,
+			    type.ToNative() ,
+			    name ,
+			    ignoreDisjointUses
+		    );
+	    }
+	    
+	    public void CreateUserVariable(
+		    AbstractVariable variable,
+			TypeWithConfidence type ,
+			string name ,
+			bool ignoreDisjointUses = false
+	    )
+	    {
+		    NativeMethods.BNCreateUserVariable(
+			    this.handle ,
+			    variable.ToNative() ,
+			    type.ToNative() ,
+			    name ,
+			    ignoreDisjointUses
+		    );
+	    }
+
+	    public void DeleteUserVariable(AbstractVariable variable)
+	    {
+		    NativeMethods.BNDeleteUserVariable(this.handle , variable.ToNative());
+	    }
 	    
 	    public ReferenceSource[] CallSites
 	    {

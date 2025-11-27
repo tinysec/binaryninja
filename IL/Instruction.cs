@@ -119,6 +119,22 @@ namespace BinaryNinja
 			return result;
 		}
 
+		public HighlightColor? Highlight
+		{
+			get
+			{
+				return this.Function?.GetInstructionHighlight(this.Address);
+			}
+
+			set
+			{
+				if (null != value)
+				{
+					this.Function?.SetUserInstructionHighlight(this.Address, value!);
+				}
+			}
+		}
+		
 		public LowLevelILInstruction[] LowLevelILInstructions
 		{
 			get

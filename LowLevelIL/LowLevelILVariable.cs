@@ -9,7 +9,7 @@ namespace BinaryNinja
 		public LowLevelILVariable(LowLevelILVariable other) 
 			: base(
 				other.ILFunction.OwnerFunction , 
-				other.Type,
+				other.Source,
 				other.Index,
 				other.Storage
 			)

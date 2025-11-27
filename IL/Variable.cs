@@ -5,7 +5,7 @@ namespace BinaryNinja
 		public Function Function { get; }
 	
 		internal AbstractFunctionVariable(AbstractFunctionVariable other) 
-			:base(other.Type , other.Index ,other.Storage)
+			:base(other.Source , other.Index ,other.Storage)
 		{
 			this.Function = other.Function;
 		}
@@ -26,6 +26,7 @@ namespace BinaryNinja
 			this.Function = function;
 		}
 		
+		
 		public string Name
 		{
 			get
@@ -35,6 +36,16 @@ namespace BinaryNinja
 						this.Function.DangerousGetHandle() ,
 						this.ToNative()
 					)
+				);
+			}
+
+			set
+			{
+				this.Function.CreateUserVariable(
+					this ,
+					this.Type ,
+					value,
+					false
 				);
 			}
 		}
@@ -55,6 +66,38 @@ namespace BinaryNinja
 		public override string ToString()
 		{
 			return this.Name;
+		}
+
+		public TypeWithConfidence Type
+		{
+			get
+			{
+				return TypeWithConfidence.FromNative(
+					NativeMethods.BNGetVariableType(
+						this.Function.DangerousGetHandle() ,
+						this.ToNative()
+					)
+				);
+			}
+
+			set
+			{
+				this.Function.CreateUserVariable(
+					this ,
+					this.Type ,
+					this.Name,
+					false
+				);
+			}
+		}
+		
+		
+		public void DeleteUserVariable()
+		{
+			NativeMethods.BNDeleteUserVariable(
+				this.Function.DangerousGetHandle() ,
+				this.ToNative()
+			);
 		}
 		
 		public void SetUserValue(ArchitectureAndAddress defSite , PossibleValueSet value , bool after)

@@ -1689,7 +1689,7 @@ namespace BinaryNinja
 	    }
 	    
 	    
-	    public static PluginCommand? GetPluginCommandByName(string name)
+	    public static PluginCommand? FromName(string name)
 	    {
 		    PluginCommand[] commands = PluginCommand.GetAllPluginCommands();
 		    
@@ -1719,7 +1719,7 @@ namespace BinaryNinja
 			    return null;
 		    }
 		    
-		    return PluginCommand.GetPluginCommandByName(names[(int)index]);
+		    return PluginCommand.FromName(names[(int)index]);
 	    }
 	    
 	    public static PluginCommand[] GetValidPluginCommands(BinaryView view)
