@@ -311,6 +311,22 @@ namespace BinaryNinja
 			    );
 		    }
 	    }
+
+	    public void SetAutoHasVariableArguments(BoolWithConfidence  hasVariableArguments)
+	    {
+		    NativeMethods.BNSetAutoFunctionHasVariableArguments(
+			    this.handle ,
+			    hasVariableArguments.ToNative()
+		    );
+	    }
+	    
+	    public void SetAutoCanReturn(BoolWithConfidence  canReturn)
+	    {
+		    NativeMethods.BNSetAutoFunctionCanReturn(
+			    this.handle ,
+			    canReturn.ToNative()
+		    );
+	    }
 	    
 	    public bool HasExplicitlyDefinedType
 	    {

@@ -21,7 +21,7 @@ namespace BinaryNinja
 		    IntPtr func  , 
 			
 			// BNBoolWithConfidence* returns
-		    IntPtr returns  
+		    in BNBoolWithConfidence returns  
 		);
 	}
 }

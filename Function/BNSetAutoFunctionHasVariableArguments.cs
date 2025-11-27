@@ -13,7 +13,6 @@ namespace BinaryNinja
 		[DllImport(
             "binaryninjacore", 
             CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl,
-            CharSet = CharSet.Ansi,
             EntryPoint = "BNSetAutoFunctionHasVariableArguments"
         )]
 		internal static extern void BNSetAutoFunctionHasVariableArguments(
@@ -22,8 +21,7 @@ namespace BinaryNinja
 		    IntPtr func  , 
 			
 			// BNBoolWithConfidence* varArgs
-		    IntPtr varArgs  
-			
+		    in BNBoolWithConfidence varArgs  
 		);
 	}
 }
