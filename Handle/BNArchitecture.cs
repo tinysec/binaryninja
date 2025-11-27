@@ -53,6 +53,41 @@ namespace BinaryNinja
 				NativeMethods.BNFreeArchitectureList
 			);
 		}
+		
+		public static string[] GetAllArchitectureNames()
+		{
+			List<string> items = new List<string>();
+
+			Architecture[] architectures = Architecture.GetAllArchitectures();
+
+			foreach (Architecture architecture in architectures)
+			{
+				if (!items.Contains(architecture.Name))
+				{
+					items.Add(architecture.Name);
+				}
+			}
+		    
+			return items.ToArray();
+		}
+		
+		public static Architecture? ChooseArchitecture(string prompt = "Choose" , string title = "Choose a architecture")
+		{
+			string[] names = Architecture.GetAllArchitectureNames();
+		    
+			int? index = Core.GetLargeChoiceInput(
+				prompt ,
+				title ,
+				names
+			);
+
+			if (null == index)
+			{
+				return null;
+			}
+		    
+			return Architecture.FromName(names[(int)index]);
+		}
 	  
 		public static Architecture NativeTypeParserArchitecture()
 		{
