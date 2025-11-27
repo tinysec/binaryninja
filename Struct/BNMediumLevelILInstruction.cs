@@ -1387,10 +1387,10 @@ namespace BinaryNinja
 			{
 				List<LowLevelILInstruction> lowInstrs = new List<LowLevelILInstruction>();
 				
-				foreach (LowLevelILInstruction highExpr in this.LowLevelILExpressions)
+				foreach (LowLevelILInstruction lowExpr in this.LowLevelILExpressions)
 				{
-					LowLevelILInstruction lowInstr = highExpr.ILFunction.MustGetInstruction(
-						highExpr.InstructionIndex
+					LowLevelILInstruction lowInstr = lowExpr.ILFunction.MustGetInstruction(
+						lowExpr.InstructionIndex
 					);
 
 					if (!lowInstrs.Contains(lowInstr))

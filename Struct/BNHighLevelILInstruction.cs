@@ -1253,6 +1253,50 @@ namespace BinaryNinja
 				return this.ILFunction.GetInstruction((HighLevelILInstructionIndex)index);
 			}
 		}
+		
+		
+		public LowLevelILInstruction[] LowLevelILExpressions
+		{
+			get
+			{
+				List<LowLevelILInstruction> lowExprs = new List<LowLevelILInstruction>();
+
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					foreach (LowLevelILInstruction lowExpr in mediumExpr.LowLevelILExpressions)
+					{
+						if (!lowExprs.Contains(lowExpr))
+						{
+							lowExprs.Add(lowExpr);
+						}
+					}
+				}
+				
+				return lowExprs.ToArray();
+			}
+		}
+		
+		public LowLevelILInstruction[] LowLevelILInstructions
+		{
+			get
+			{
+				List<LowLevelILInstruction> lowInstrs = new List<LowLevelILInstruction>();
+
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					foreach (LowLevelILInstruction lowInstr in mediumExpr.LowLevelILInstructions)
+					{
+						if (!lowInstrs.Contains(lowInstr))
+						{
+							lowInstrs.Add(lowInstr);
+						}
+					}
+				}
+				
+				return lowInstrs.ToArray();
+			}
+		}
+		
 
 		public MediumLevelILInstruction? MediumLevelILExpression
 		{
@@ -1283,9 +1327,9 @@ namespace BinaryNinja
 		{
 			get
 			{
-				MediumLevelILFunction? mediumLevelIl = this.ILFunction.MediumLevelIL;
+				MediumLevelILFunction? mediumIL = this.ILFunction.MediumLevelIL;
 
-				if (null == mediumLevelIl)
+				if (null == mediumIL)
 				{
 					return Array.Empty<MediumLevelILInstruction>();
 				}
@@ -1302,14 +1346,14 @@ namespace BinaryNinja
 					NativeMethods.BNFreeILInstructionList
 				);
 				
-				List<MediumLevelILInstruction> targets = new List<MediumLevelILInstruction>();
+				List<MediumLevelILInstruction> mediumExprs = new List<MediumLevelILInstruction>();
 
 				foreach (MediumLevelILExpressionIndex index in indexes)
 				{
-					targets.Add(mediumLevelIl.MustGetExpression(index));
+					mediumExprs.Add(mediumIL.MustGetExpression(index));
 				}
 				
-				return targets.ToArray();
+				return mediumExprs.ToArray();
 			}
 		}
 		
@@ -1465,12 +1509,12 @@ namespace BinaryNinja
 		{
 			get
 			{
-				if (null == this.MediumLevelIL)
+				if (null == this.MediumLevelILExpression)
 				{
 					return new RegisterValue();
 				}
 				
-				return this.MediumLevelIL.Value;
+				return this.MediumLevelILExpression.Value;
 			}
 		}
 		
@@ -1478,23 +1522,23 @@ namespace BinaryNinja
 		{
 			get
 			{
-				if (null == this.MediumLevelIL)
+				if (null == this.MediumLevelILExpression)
 				{
 					return new PossibleValueSet();
 				}
 				
-				return this.MediumLevelIL.PossibleValues;
+				return this.MediumLevelILExpression.PossibleValues;
 			}
 		}
 
 		public PossibleValueSet GetPossibleValues(DataFlowQueryOption[] options)
 		{
-			if (null == this.MediumLevelIL)
+			if (null == this.MediumLevelILExpression)
 			{
 				return new PossibleValueSet();
 			}
 			
-			return this.MediumLevelIL.GetPossibleValues(options);
+			return this.MediumLevelILExpression.GetPossibleValues(options);
 		}
 		
 		public TypeWithConfidence Type
