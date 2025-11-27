@@ -1790,6 +1790,28 @@ namespace BinaryNinja
 			}
 		}
 		
+		public MediumLevelILInstruction[] MediumLevelILInstructions
+		{
+			get
+			{
+				List<MediumLevelILInstruction> items = new List<MediumLevelILInstruction>();
+				
+				foreach (MediumLevelILInstruction mediumExpr in this.MediumLevelILExpressions)
+				{
+					MediumLevelILInstruction mediumInst = mediumExpr.ILFunction.MustGetInstruction(
+						mediumExpr.InstructionIndex
+					);
+
+					if (!items.Contains(mediumInst))
+					{
+						items.Add(mediumInst);
+					}
+				}
+
+				return items.ToArray();
+			}
+		}
+		
 		public MediumLevelILInstruction? MappedMediumLevelILExpression
 		{
 			get

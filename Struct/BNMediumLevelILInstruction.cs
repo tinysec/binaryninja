@@ -900,7 +900,7 @@ namespace BinaryNinja
 			{
 				return false;
 			}
-			
+
 			return this.ExpressionIndex == other.ExpressionIndex;
 		}
 

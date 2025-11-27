@@ -1299,8 +1299,7 @@ namespace BinaryNinja
 		    return mlil.GetInstruction(mediumInstr);
 	    }
 
-	    public MediumLevelILInstruction[] GetMediumLevelILExpressions(
-		    LowLevelILExpressionIndex lowExpr)
+	    public MediumLevelILInstruction[] GetMediumLevelILExpressions(LowLevelILExpressionIndex lowExpr)
 	    {
 		    MediumLevelILFunction? mlil = this.MediumLevelIL;
 

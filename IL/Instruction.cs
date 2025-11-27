@@ -145,11 +145,7 @@ namespace BinaryNinja
 				
 				foreach (LowLevelILInstruction lowInstr in this.LowLevelILInstructions)
 				{
-					MediumLevelILInstruction[] mediumExprs = this.Function.LowLevelIL.GetMediumLevelILExpressions(
-						lowInstr.ExpressionIndex
-					);
-
-					foreach (MediumLevelILInstruction mediumExpr in mediumExprs)
+					foreach (MediumLevelILInstruction mediumExpr in lowInstr.MediumLevelILExpressions)
 					{
 						if (!items.Contains(mediumExpr))
 						{
