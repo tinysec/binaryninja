@@ -293,8 +293,5 @@ namespace BinaryNinja
 			    return this.GetLinearDisassemblyText();
 		    }
 	    }
-	    
-	    
-
 	}
 }
